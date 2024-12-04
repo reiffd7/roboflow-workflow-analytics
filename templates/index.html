@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Stream</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .video-container {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .video-container img,
+        .video-container video {
+            max-width: 100%;
+            height: auto;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .config-group {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .config-group h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Workflow Analytics</h1>
+        
+        <!-- New configuration section -->
+        <div id="config-section" style="margin-bottom: 20px;">
+            <h3>Configuration</h3>
+            <form id="config-form" onsubmit="updateConfig(event)">
+                <div class="config-group">
+                    <h4>API Settings</h4>
+                    <div class="config-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label for="api_key">API Key:</label>
+                            <input type="text" id="api_key" name="api.key" class="form-control">
+                        </div>
+                        <div>
+                            <label for="api_url">API URL:</label>
+                            <input type="text" id="api_url" name="api.url" class="form-control">
+                        </div>
+                        <div>
+                            <label for="workspace_name">Workspace Name:</label>
+                            <input type="text" id="workspace_name" name="api.workspace_name" class="form-control">
+                        </div>
+                        <div>
+                            <label for="workflow_id">Workflow ID:</label>
+                            <input type="text" id="workflow_id" name="api.workflow_id" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-group" style="margin-top: 15px;">
+                    <h4>Video Settings</h4>
+                    <div class="config-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label for="video_source">Video Source:</label>
+                            <input type="text" id="video_source" name="video.source" class="form-control">
+                        </div>
+                        <div>
+                            <label for="max_fps">Max FPS:</label>
+                            <input type="number" id="max_fps" name="video.max_fps" min="1" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" style="margin-top: 10px;">Update Configuration</button>
+            </form>
+        </div>
+
+        <button id="start-button" onclick="startPipeline()">Start Pipeline</button>
+        <div id="progress-container" style="margin: 20px;">
+            <div id="status-text" class="alert alert-info" role="alert">
+                Ready to start
+            </div>
+            <div class="progress">
+                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+            <div id="progress-text">Processed 0/0 frames (0%)</div>
+        </div>
+        <div class="video-container">
+            <img id="live-frame" src="{{ url_for('video_feed') }}" />
+            <div id="frame-selector" style="display: none; margin-top: 20px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <button id="play-button" onclick="togglePlayback()">
+                        <span id="play-icon">▶</span>
+                    </button>
+                    <input type="range" id="frame-slider" min="0" value="0" style="flex-grow: 1;">
+                    <input type="number" id="frame-input" min="0" value="0" style="width: 80px;">
+                </div>
+                <div id="frame-number">Frame: 0</div>
+            </div>
+        </div>
+        <div id="prediction-plot" style="width:100%; height:400px; display:none;"></div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        function updateStatus() {
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    const statusText = document.getElementById('status-text');
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+                    const startButton = document.getElementById('start-button');
+                    const predictionPlot = document.getElementById('prediction-plot');
+                    
+                    // Update status message
+                    switch(data.status) {
+                        case 'idle':
+                            statusText.textContent = 'Ready to start';
+                            statusText.className = 'alert alert-info';
+                            startButton.disabled = false;
+                            predictionPlot.style.display = 'none';  // Hide plot
+                            break;
+                        case 'initializing':
+                            statusText.textContent = 'Initializing pipeline...';
+                            statusText.className = 'alert alert-warning';
+                            startButton.disabled = true;
+                            predictionPlot.style.display = 'none';  // Hide plot
+                            break;
+                        case 'processing':
+                            statusText.textContent = 'Processing video...';
+                            statusText.className = 'alert alert-primary';
+                            startButton.disabled = true;
+                            predictionPlot.style.display = 'none';  // Hide plot
+                            break;
+                        case 'completed':
+                            statusText.textContent = 'Processing completed!';
+                            statusText.className = 'alert alert-success';
+                            startButton.disabled = false;
+                            predictionPlot.style.display = 'block';  // Show plot
+                            updatePlot();  // Initialize plot when complete
+                            break;
+                        case 'error':
+                            statusText.textContent = 'An error occurred';
+                            statusText.className = 'alert alert-danger';
+                            startButton.disabled = false;
+                            predictionPlot.style.display = 'none';  // Hide plot
+                            break;
+                    }
+                    
+                    // Update progress
+                    progressBar.style.width = data.progress_percentage + '%';
+                    progressText.textContent = `Processed ${data.frames_processed}/${data.total_frames} frames (${data.progress_percentage}%)`;
+                    
+                    // Continue updating if not complete or error
+                    if (data.status !== 'completed' && data.status !== 'error') {
+                        setTimeout(updateStatus, 1000);
+                    }
+                    
+                    if (data.status === 'completed') {
+                        const frameSelector = document.getElementById('frame-selector');
+                        const frameSlider = document.getElementById('frame-slider');
+                        const frameInput = document.getElementById('frame-input');
+                        frameSelector.style.display = 'block';
+                        
+                        const maxFrame = data.total_frames - 1;
+                        frameSlider.max = maxFrame;
+                        frameInput.max = maxFrame;
+                        
+                        const liveFrame = document.getElementById('live-frame');
+                        liveFrame.src = `/frame/0`;  // Show first frame
+                    }
+                });
+        }
+
+        // Update the click handler
+        document.getElementById('start-button').addEventListener('click', function() {
+            const startButton = this;
+            const statusText = document.getElementById('status-text');
+            
+            // Disable button immediately
+            startButton.disabled = true;
+            statusText.textContent = 'Starting pipeline...';
+            statusText.className = 'alert alert-warning';
+            
+            fetch('/start_pipeline')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    updateStatus();
+                })
+                .catch(error => {
+                    statusText.textContent = 'Failed to start pipeline';
+                    statusText.className = 'alert alert-danger';
+                    startButton.disabled = false;
+                });
+        });
+
+        // Update the existing slider event listener and add new input listener
+        document.getElementById('frame-slider').addEventListener('input', function() {
+            const frameNumber = parseInt(this.value);
+            updateFrameDisplay(frameNumber);
+        });
+
+        document.getElementById('frame-input').addEventListener('change', function() {
+            const frameNumber = parseInt(this.value);
+            const maxFrame = parseInt(this.max);
+            
+            // Ensure the input is within valid range
+            if (frameNumber < 0) this.value = 0;
+            if (frameNumber > maxFrame) this.value = maxFrame;
+            
+            // Update slider and display
+            document.getElementById('frame-slider').value = this.value;
+            updateFrameDisplay(parseInt(this.value));
+        });
+
+        function updateFrameDisplay(frameNumber) {
+            document.getElementById('frame-number').textContent = `Frame: ${frameNumber}`;
+            document.getElementById('frame-input').value = frameNumber;
+            document.getElementById('frame-slider').value = frameNumber;
+            document.getElementById('live-frame').src = `/frame/${frameNumber}`;
+        }
+
+        let isPlaying = false;
+        let playbackInterval;
+        const PLAYBACK_FPS = 30; // Adjust this value to control playback speed
+
+        function togglePlayback() {
+            const playButton = document.getElementById('play-button');
+            const playIcon = document.getElementById('play-icon');
+            
+            isPlaying = !isPlaying;
+            
+            if (isPlaying) {
+                playIcon.textContent = '⏸';
+                playbackInterval = setInterval(advanceFrame, 1000 / PLAYBACK_FPS);
+            } else {
+                playIcon.textContent = '▶';
+                clearInterval(playbackInterval);
+            }
+        }
+
+        function advanceFrame() {
+            const frameSlider = document.getElementById('frame-slider');
+            const currentFrame = parseInt(frameSlider.value);
+            const maxFrame = parseInt(frameSlider.max);
+            
+            if (currentFrame >= maxFrame) {
+                // Stop at the end
+                togglePlayback();
+                return;
+            }
+            
+            updateFrameDisplay(currentFrame + 1);
+        }
+
+        // Configuration handling
+        function loadConfig() {
+            fetch('/get_config')
+                .then(response => response.json())
+                .then(config => {
+                    // API settings
+                    document.getElementById('api_key').value = config.api?.key || '';
+                    document.getElementById('api_url').value = config.api?.url || '';
+                    document.getElementById('workspace_name').value = config.api?.workspace_name || '';
+                    document.getElementById('workflow_id').value = config.api?.workflow_id || '';
+                    
+                    // Video settings
+                    document.getElementById('video_source').value = config.video?.source || '';
+                    document.getElementById('max_fps').value = config.video?.max_fps || 30;
+                });
+        }
+
+        function updateConfig(event) {
+            event.preventDefault();
+            
+            const config = {
+                api: {
+                    key: document.getElementById('api_key').value,
+                    url: document.getElementById('api_url').value,
+                    workspace_name: document.getElementById('workspace_name').value,
+                    workflow_id: document.getElementById('workflow_id').value
+                },
+                video: {
+                    source: document.getElementById('video_source').value,
+                    max_fps: parseInt(document.getElementById('max_fps').value)
+                }
+            };
+
+            fetch('/update_config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(config)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Configuration updated successfully!');
+            })
+            .catch(error => {
+                alert('Failed to update configuration');
+            });
+        }
+
+        // Load config when page loads
+        document.addEventListener('DOMContentLoaded', loadConfig);
+
+        function updatePlot() {
+            fetch('/prediction_counts')
+                .then(response => response.json())
+                .then(data => {
+                    // Create the plot
+                    const traces = {};
+                    
+                    // Group data by class
+                    data.forEach(row => {
+                        if (!traces[row.class]) {
+                            traces[row.class] = {
+                                x: [],
+                                y: [],
+                                name: row.class,
+                                type: 'bar',
+                                opacity: 0.8
+                            };
+                        }
+                        traces[row.class].x.push(row.frame);
+                        traces[row.class].y.push(row.count);
+                    });
+                    
+                    const layout = {
+                        title: 'Object Detection Counts per Frame',
+                        barmode: 'stack',
+                        xaxis: {
+                            title: 'Frame Number',
+                            range: [0, Math.max(...data.map(d => d.frame))]
+                        },
+                        yaxis: {
+                            title: 'Count',
+                            rangemode: 'nonnegative',
+                            range: [0, Math.max(...data.map(d => d.count)) * 1.1]
+                        },
+                        hovermode: 'closest',
+                        showlegend: true,
+                        legend: {
+                            orientation: 'h',
+                            y: -0.2
+                        }
+                    };
+                    
+                    Plotly.newPlot('prediction-plot', Object.values(traces), layout);
+                    
+                    // Add click event handler
+                    document.getElementById('prediction-plot').on('plotly_click', function(data) {
+                        const frameNumber = Math.round(data.points[0].x);  // Get clicked x value (frame number)
+                        updateFrameDisplay(frameNumber);  // Use existing frame update function
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html> 
