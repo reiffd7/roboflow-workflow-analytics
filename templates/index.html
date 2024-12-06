@@ -1,59 +1,162 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Video Stream</title>
+    <title>Roboflow Workflow Analytics</title>
     <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+            line-height: 1.5;
+        }
+
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        .video-container {
-            margin-top: 20px;
+
+        h1 {
+            color: #1a365d;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
+
+        .config-group {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
-        button:hover {
-            background-color: #45a049;
+
+        .config-group h4 {
+            color: #2d3748;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
-        .video-container img,
-        .video-container video {
-            max-width: 100%;
-            height: auto;
-        }
+
         .form-control {
             width: 100%;
-            padding: 8px;
-            margin: 4px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
         }
-        label {
-            font-weight: bold;
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
         }
-        .config-group {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 10px;
+
+        .button-container {
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1rem;
         }
-        .config-group h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #333;
+
+        button {
+            background-color: #4299e1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3182ce;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background-color: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        #progress-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress {
+            height: 0.75rem;
+            background-color: #edf2f7;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4299e1;
+            transition: width 0.3s ease;
+        }
+
+        .video-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        #live-frame {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #frame-selector input[type="range"] {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            cursor: pointer;
+        }
+
+        #frame-selector input[type="number"] {
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-info { background-color: #ebf8ff; color: #2c5282; }
+        .alert-warning { background-color: #fffaf0; color: #9c4221; }
+        .alert-primary { background-color: #ebf8ff; color: #2b6cb0; }
+        .alert-success { background-color: #f0fff4; color: #276749; }
+        .alert-danger { background-color: #fff5f5; color: #c53030; }
+
+        #progress-text {
+            margin-top: 0.75rem;
+            color: #4a5568;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Workflow Analytics</h1>
+        <h1>📹 Roboflow Video Analytics 📹</h1>
         
         <!-- New configuration section -->
         <div id="config-section" style="margin-bottom: 20px;">
@@ -65,10 +168,6 @@
                         <div>
                             <label for="api_key">API Key:</label>
                             <input type="text" id="api_key" name="api.key" class="form-control">
-                        </div>
-                        <div>
-                            <label for="api_url">API URL:</label>
-                            <input type="text" id="api_url" name="api.url" class="form-control">
                         </div>
                         <div>
                             <label for="workspace_name">Workspace Name:</label>
@@ -94,12 +193,17 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" style="margin-top: 10px;">Update Configuration</button>
+                <div class="button-container">
+                    <button type="submit">Update Configuration</button>
+                </div>
             </form>
         </div>
 
-        <button id="start-button" onclick="startPipeline()">Start Pipeline</button>
-        <div id="progress-container" style="margin: 20px;">
+        <div class="button-container">
+            <button id="start-button" onclick="startPipeline()">Start Pipeline</button>
+        </div>
+        
+        <div id="progress-container">
             <div id="status-text" class="alert alert-info" role="alert">
                 Ready to start
             </div>
@@ -285,7 +389,6 @@
                 .then(config => {
                     // API settings
                     document.getElementById('api_key').value = config.api?.key || '';
-                    document.getElementById('api_url').value = config.api?.url || '';
                     document.getElementById('workspace_name').value = config.api?.workspace_name || '';
                     document.getElementById('workflow_id').value = config.api?.workflow_id || '';
                     
@@ -301,7 +404,6 @@
             const config = {
                 api: {
                     key: document.getElementById('api_key').value,
-                    url: document.getElementById('api_url').value,
                     workspace_name: document.getElementById('workspace_name').value,
                     workflow_id: document.getElementById('workflow_id').value
                 },
@@ -334,35 +436,113 @@
             fetch('/prediction_counts')
                 .then(response => response.json())
                 .then(data => {
-                    // Create the plot
-                    const traces = {};
+                    // Add dropdown for aggregation selection after the time unit selector
+                    if (!document.getElementById('time-unit-selector')) {
+                        const plotContainer = document.getElementById('prediction-plot');
+                        const controlsDiv = document.createElement('div');
+                        controlsDiv.style.display = 'flex';
+                        controlsDiv.style.gap = '10px';
+                        controlsDiv.style.marginBottom = '10px';
+                        
+                        // Time unit selector
+                        const timeSelector = document.createElement('select');
+                        timeSelector.id = 'time-unit-selector';
+                        timeSelector.className = 'form-control';
+                        timeSelector.style.width = '200px';
+                        timeSelector.innerHTML = `
+                            <option value="frame">Per Frame</option>
+                            <option value="second">Per Second</option>
+                            <option value="minute">Per Minute</option>
+                        `;
+                        
+                        // Aggregation selector
+                        const aggSelector = document.createElement('select');
+                        aggSelector.id = 'aggregation-selector';
+                        aggSelector.className = 'form-control';
+                        aggSelector.style.width = '200px';
+                        aggSelector.innerHTML = `
+                            <option value="sum">Sum</option>
+                            <option value="mean">Mean</option>
+                        `;
+                        
+                        controlsDiv.appendChild(timeSelector);
+                        controlsDiv.appendChild(aggSelector);
+                        plotContainer.parentNode.insertBefore(controlsDiv, plotContainer);
+                        
+                        // Add event listeners for both selectors
+                        timeSelector.addEventListener('change', () => updatePlot());
+                        aggSelector.addEventListener('change', () => updatePlot());
+                    }
+
+                    const timeUnit = document.getElementById('time-unit-selector').value;
+                    const FPS = 30;
                     
-                    // Group data by class
+                    const traces = {};
+                    const frameMapping = {};
+                    const countsByTimeIndex = {}; // Track number of frames per time index
+                    
                     data.forEach(row => {
+                        let timeIndex;
+                        
+                        switch(timeUnit) {
+                            case 'second':
+                                timeIndex = Math.floor(row.frame / FPS);
+                                break;
+                            case 'minute':
+                                timeIndex = Math.floor(row.frame / (FPS * 60));
+                                break;
+                            default: // frame
+                                timeIndex = row.frame;
+                        }
+
+                        // Store the first frame number for each time index
+                        if (!(timeIndex in frameMapping)) {
+                            frameMapping[timeIndex] = row.frame;
+                            countsByTimeIndex[timeIndex] = 1;
+                        } else {
+                            countsByTimeIndex[timeIndex]++;
+                        }
+
                         if (!traces[row.class]) {
                             traces[row.class] = {
                                 x: [],
                                 y: [],
                                 name: row.class,
                                 type: 'bar',
-                                opacity: 0.8
+                                opacity: 0.8,
+                                customdata: [],
                             };
                         }
-                        traces[row.class].x.push(row.frame);
-                        traces[row.class].y.push(row.count);
+
+                        const existingIndex = traces[row.class].x.indexOf(timeIndex);
+                        if (existingIndex === -1) {
+                            traces[row.class].x.push(timeIndex);
+                            traces[row.class].y.push(row.count);
+                            traces[row.class].customdata.push(frameMapping[timeIndex]);
+                        } else {
+                            traces[row.class].y[existingIndex] += row.count;
+                        }
                     });
-                    
+
+                    // Apply aggregation if mean is selected
+                    const aggregationType = document.getElementById('aggregation-selector').value;
+                    if (aggregationType === 'mean') {
+                        Object.values(traces).forEach(trace => {
+                            trace.y = trace.y.map((count, idx) => count / countsByTimeIndex[trace.x[idx]]);
+                        });
+                    }
+
                     const layout = {
-                        title: 'Object Detection Counts per Frame',
+                        title: `Object Detection ${aggregationType.charAt(0).toUpperCase() + aggregationType.slice(1)} per ${timeUnit.charAt(0).toUpperCase() + timeUnit.slice(1)}`,
                         barmode: 'stack',
                         xaxis: {
-                            title: 'Frame Number',
-                            range: [0, Math.max(...data.map(d => d.frame))]
+                            title: timeUnit.charAt(0).toUpperCase() + timeUnit.slice(1),
+                            range: [0, Math.max(...Object.values(traces).flatMap(t => t.x))]
                         },
                         yaxis: {
                             title: 'Count',
                             rangemode: 'nonnegative',
-                            range: [0, Math.max(...data.map(d => d.count)) * 1.1]
+                            range: [0, Math.max(...Object.values(traces).flatMap(t => t.y)) * 1.1]
                         },
                         hovermode: 'closest',
                         showlegend: true,
@@ -371,13 +551,16 @@
                             y: -0.2
                         }
                     };
-                    
+
                     Plotly.newPlot('prediction-plot', Object.values(traces), layout);
-                    
-                    // Add click event handler
+
+                    // Update click handler to use the correct frame number
                     document.getElementById('prediction-plot').on('plotly_click', function(data) {
-                        const frameNumber = Math.round(data.points[0].x);  // Get clicked x value (frame number)
-                        updateFrameDisplay(frameNumber);  // Use existing frame update function
+                        const point = data.points[0];
+                        const frameNumber = point.customdata;
+                        if (frameNumber !== undefined) {
+                            updateFrameDisplay(frameNumber);
+                        }
                     });
                 })
                 .catch(error => console.error('Error:', error));

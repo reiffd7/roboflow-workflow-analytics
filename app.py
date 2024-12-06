@@ -1,6 +1,4 @@
 from flask import Flask, jsonify, Response, render_template, send_file, request
-import base64
-import numpy as np
 from io import BytesIO
 from PIL import Image
 # Import the InferencePipeline object
@@ -9,15 +7,12 @@ import cv2
 import yaml
 import os
 import json
-import plotly.express as px
-import plotly.utils
 from collections import defaultdict
 
 app = Flask(__name__)
 
 # Add global variables for tracking progress
 latest_image = None
-video_writer = None
 frames_processed = 0
 total_frames = 0
 
@@ -25,10 +20,6 @@ total_frames = 0
 pipeline_status = "idle"  # Can be "idle", "initializing", "processing", "completed", "error"
 
 # Add this as a global variable at the top with the others
-video_width = None
-video_height = None
-
-# Add this with other global variables at the top
 OUTPUT_FRAMES_DIR = 'output_frames'
 JSON_OUTPUT_PATH = 'predictions.json'
 
@@ -65,19 +56,6 @@ def get_video_dimensions(video_source):
     cap.release()
     return width, height, total
 
-def init_video_writer():
-    global video_writer, total_frames
-    config = load_config()
-    frame_width, frame_height, frame_count = get_video_dimensions(config['video']['source'])
-    total_frames = frame_count
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    output_path = 'output_video.mp4'
-    video_writer = cv2.VideoWriter(
-        output_path, 
-        fourcc, 
-        30.0,  # FPS - adjust as needed
-        (frame_width, frame_height)
-    )
 
 def my_sink(result, video_frame):
     global latest_image, frames_processed
@@ -162,9 +140,7 @@ def video_feed():
 
 @app.route('/')
 def index():
-    return render_template('index.html', 
-                         video_width=video_width, 
-                         video_height=video_height)
+    return render_template('index.html')
 
 @app.route('/progress')
 def get_progress():
