@@ -67,9 +67,9 @@ def my_sink(result, video_frame):
         # Ensure output directory exists
         os.makedirs(OUTPUT_FRAMES_DIR, exist_ok=True)
         
-        if result.get("output_image"):
+        if result.get("line_counter_visualization"):
             print(f"Output image found in result")  # Debug line
-            frame = result["output_image"].numpy_image
+            frame = result["line_counter_visualization"].numpy_image
             # Convert BGR to RGB
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             latest_image = frame_rgb
@@ -86,24 +86,21 @@ def my_sink(result, video_frame):
             print(f"Processed frame {frames_processed}/{total_frames}")
         else:
             print(f"No output_image in result")  # Debug line
-        if result.get("model_predictions"):
-            print(f"Model predictions found in result")  # Debug line
-            print(f"Model predictions: {result['model_predictions']}")  # Debug line
-            predictions = result["model_predictions"]
+        if result.get("angles"):
+            print(f"angles found in result")  # Debug line
+            print(f"angles: {result['angles']}")  # Debug line
             
             # Create the prediction entry
             prediction_entry = {
                 'frame_num': frames_processed - 1,
-                'class_names': predictions['predictions'].data['class_name'].tolist(),
-                'class_confidences': predictions['predictions'].confidence.tolist(),
-                'bounding_boxes': predictions['predictions'].xyxy.tolist()
+                'angles': result['angles'],
+                'count_in': result['count_in']
             }
         else:
             prediction_entry = {
                 'frame_num': frames_processed,
-                'class_names': [],
-                'class_confidences': [],
-                'bounding_boxes': []
+                'angles': [],
+                'count_in': 0
             }
         
         # Read existing predictions
@@ -208,6 +205,10 @@ def start_pipeline():
                 pipeline = InferencePipeline.init_with_workflow(
                     api_key=config['api']['key'],
                     workspace_name=config['api']['workspace_name'],
+                    workflows_parameters={
+                        "line": [[75,445],[600,445]],
+                        "zone": [[33,14],[593,14],[601,631],[24,625]]
+                    },
                     workflow_id=config['api']['workflow_id'],
                     video_reference=config['video']['source'],
                     max_fps=config['video']['max_fps'],
@@ -306,6 +307,28 @@ def get_prediction_counts():
                     'class': class_name,
                     'count': count
                 })
+        
+        return jsonify(plot_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/angle_data')
+def get_angle_data():
+    try:
+        with open(JSON_OUTPUT_PATH, 'r') as f:
+            predictions = json.load(f)
+        
+        # Simplified data structure with raw angles
+        plot_data = {
+            'frames': [],
+            'angles': [],  # Raw angles array for each frame
+            'count_in': []
+        }
+        
+        for pred in predictions:
+            plot_data['frames'].append(pred['frame_num'])
+            plot_data['angles'].append(pred.get('angles', []))  # Use empty list as default
+            plot_data['count_in'].append(pred['count_in'])
         
         return jsonify(plot_data)
     except Exception as e:

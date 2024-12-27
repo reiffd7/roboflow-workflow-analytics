@@ -433,10 +433,10 @@
         document.addEventListener('DOMContentLoaded', loadConfig);
 
         function updatePlot() {
-            fetch('/prediction_counts')
+            fetch('/angle_data')
                 .then(response => response.json())
                 .then(data => {
-                    // Add dropdown for aggregation selection after the time unit selector
+                    // Add dropdown for time unit selector
                     if (!document.getElementById('time-unit-selector')) {
                         const plotContainer = document.getElementById('prediction-plot');
                         const controlsDiv = document.createElement('div');
@@ -461,15 +461,15 @@
                         aggSelector.className = 'form-control';
                         aggSelector.style.width = '200px';
                         aggSelector.innerHTML = `
-                            <option value="sum">Sum</option>
                             <option value="mean">Mean</option>
+                            <option value="min">Minimum</option>
+                            <option value="max">Maximum</option>
                         `;
                         
                         controlsDiv.appendChild(timeSelector);
                         controlsDiv.appendChild(aggSelector);
                         plotContainer.parentNode.insertBefore(controlsDiv, plotContainer);
                         
-                        // Add event listeners for both selectors
                         timeSelector.addEventListener('change', () => updatePlot());
                         aggSelector.addEventListener('change', () => updatePlot());
                     }
@@ -479,82 +479,137 @@
                     
                     const traces = {};
                     const frameMapping = {};
-                    const countsByTimeIndex = {}; // Track number of frames per time index
+                    const anglesByTimeIndex = {};
+                    const countsByTimeIndex = {};
                     
-                    data.forEach(row => {
-                        let timeIndex;
+                    // Process the data arrays
+                    for (let i = 0; i < data.frames.length; i++) {
+                        const frame = data.frames[i];
+                        const angles = data.angles?.[i] || [];
+                        const count_in = data.count_in?.[i] || 0;  // Changed to count_in
                         
+                        let timeIndex;
                         switch(timeUnit) {
                             case 'second':
-                                timeIndex = Math.floor(row.frame / FPS);
+                                timeIndex = Math.floor(frame / FPS);
                                 break;
                             case 'minute':
-                                timeIndex = Math.floor(row.frame / (FPS * 60));
+                                timeIndex = Math.floor(frame / (FPS * 60));
                                 break;
                             default: // frame
-                                timeIndex = row.frame;
+                                timeIndex = frame;
                         }
 
-                        // Store the first frame number for each time index
-                        if (!(timeIndex in frameMapping)) {
-                            frameMapping[timeIndex] = row.frame;
-                            countsByTimeIndex[timeIndex] = 1;
-                        } else {
-                            countsByTimeIndex[timeIndex]++;
+                        // Initialize arrays for this time index if needed
+                        if (!(timeIndex in anglesByTimeIndex)) {
+                            anglesByTimeIndex[timeIndex] = [];
+                            countsByTimeIndex[timeIndex] = [];
+                            frameMapping[timeIndex] = frame;
                         }
+                        
+                        // Add values for this frame to the time index
+                        if (angles.length > 0) {
+                            anglesByTimeIndex[timeIndex].push(...angles);
+                        }
+                        countsByTimeIndex[timeIndex].push(count_in);  // Add the count_in value
 
-                        if (!traces[row.class]) {
-                            traces[row.class] = {
+                        // Initialize traces if they don't exist
+                        if (!traces['angle']) {
+                            traces['angle'] = {
                                 x: [],
                                 y: [],
-                                name: row.class,
-                                type: 'bar',
+                                name: 'Angle',
+                                type: 'scatter',
+                                mode: 'lines+markers',
                                 opacity: 0.8,
                                 customdata: [],
+                                yaxis: 'y1'
                             };
                         }
-
-                        const existingIndex = traces[row.class].x.indexOf(timeIndex);
-                        if (existingIndex === -1) {
-                            traces[row.class].x.push(timeIndex);
-                            traces[row.class].y.push(row.count);
-                            traces[row.class].customdata.push(frameMapping[timeIndex]);
-                        } else {
-                            traces[row.class].y[existingIndex] += row.count;
+                        
+                        if (!traces['count']) {
+                            traces['count'] = {
+                                x: [],
+                                y: [],
+                                name: 'Count In',  // Updated name
+                                type: 'scatter',
+                                mode: 'lines+markers',
+                                opacity: 0.8,
+                                customdata: [],
+                                yaxis: 'y2',
+                                line: { color: '#ff7f0e' }
+                            };
                         }
-                    });
-
-                    // Apply aggregation if mean is selected
-                    const aggregationType = document.getElementById('aggregation-selector').value;
-                    if (aggregationType === 'mean') {
-                        Object.values(traces).forEach(trace => {
-                            trace.y = trace.y.map((count, idx) => count / countsByTimeIndex[trace.x[idx]]);
-                        });
                     }
 
+                    // Process aggregated data
+                    const aggregationType = document.getElementById('aggregation-selector').value;
+                    Object.entries(anglesByTimeIndex).forEach(([timeIndex, angles]) => {
+                        const counts = countsByTimeIndex[timeIndex];
+                        
+                        // Aggregate angles
+                        let aggregatedAngle = 0;
+                        if (angles.length > 0) {
+                            switch(aggregationType) {
+                                case 'mean':
+                                    aggregatedAngle = angles.reduce((a, b) => a + b, 0) / angles.length;
+                                    break;
+                                case 'min':
+                                    aggregatedAngle = Math.min(...angles);
+                                    break;
+                                case 'max':
+                                    aggregatedAngle = Math.max(...angles);
+                                    break;
+                            }
+                        }
+
+                        // Aggregate count_in values
+                        let aggregatedCount = 0;
+                        if (counts.length > 0) {
+                            switch(aggregationType) {
+                                case 'mean':
+                                    aggregatedCount = counts.reduce((a, b) => a + b, 0) / counts.length;
+                                    break;
+                                case 'min':
+                                    aggregatedCount = Math.min(...counts);
+                                    break;
+                                case 'max':
+                                    aggregatedCount = Math.max(...counts);
+                                    break;
+                            }
+                        }
+
+                        traces['angle'].x.push(parseInt(timeIndex));
+                        traces['angle'].y.push(aggregatedAngle);
+                        traces['angle'].customdata.push(frameMapping[timeIndex]);
+
+                        traces['count'].x.push(parseInt(timeIndex));
+                        traces['count'].y.push(aggregatedCount);
+                        traces['count'].customdata.push(frameMapping[timeIndex]);
+                    });
+
                     const layout = {
-                        title: `Object Detection ${aggregationType.charAt(0).toUpperCase() + aggregationType.slice(1)} per ${timeUnit.charAt(0).toUpperCase() + timeUnit.slice(1)}`,
-                        barmode: 'stack',
+                        title: `Angle and Count In ${aggregationType.charAt(0).toUpperCase() + aggregationType.slice(1)} per ${timeUnit.charAt(0).toUpperCase() + timeUnit.slice(1)}`,
                         xaxis: {
                             title: timeUnit.charAt(0).toUpperCase() + timeUnit.slice(1),
-                            range: [0, Math.max(...Object.values(traces).flatMap(t => t.x))]
+                            range: [0, Math.max(...traces['angle'].x)]
                         },
                         yaxis: {
-                            title: 'Count',
-                            rangemode: 'nonnegative',
-                            range: [0, Math.max(...Object.values(traces).flatMap(t => t.y)) * 1.1]
+                            title: 'Angle (degrees)',
+                            side: 'left'
+                        },
+                        yaxis2: {
+                            title: 'Count In',  // Updated title
+                            side: 'right',
+                            overlaying: 'y'
                         },
                         hovermode: 'closest',
-                        showlegend: true,
-                        legend: {
-                            orientation: 'h',
-                            y: -0.2
-                        }
+                        showlegend: true
                     };
 
                     Plotly.newPlot('prediction-plot', Object.values(traces), layout);
 
-                    // Update click handler to use the correct frame number
+                    // Update click handler
                     document.getElementById('prediction-plot').on('plotly_click', function(data) {
                         const point = data.points[0];
                         const frameNumber = point.customdata;
