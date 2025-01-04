@@ -1,0 +1,6332 @@
+[
+  {
+    "frame_num": 0,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 1,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 2,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 3,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 4,
+    "angles": [
+      0.0,
+      0.0,
+      0.5224394202232361,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 5,
+    "angles": [
+      0.5292762517929077,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 6,
+    "angles": [
+      0.0,
+      0.12429046630859375,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 7,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 8,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 9,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 10,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 0
+  },
+  {
+    "frame_num": 11,
+    "angles": [
+      0.0,
+      0.2945772409439087,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 12,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 13,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 14,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 15,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 16,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 17,
+    "angles": [
+      0.32370153069496155,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 18,
+    "angles": [
+      0.2677353322505951,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 19,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 20,
+    "angles": [
+      0.0,
+      0.1341819167137146,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 21,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 22,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 23,
+    "angles": [
+      0.5743744969367981,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 24,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 25,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 26,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 1
+  },
+  {
+    "frame_num": 27,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 28,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 29,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 30,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 31,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 32,
+    "angles": [
+      0.0,
+      0.0,
+      0.46205273270606995
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 33,
+    "angles": [
+      0.0,
+      0.0,
+      0.2377404421567917,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 34,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 35,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 36,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 37,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 38,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 39,
+    "angles": [
+      0.14881986379623413,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 2
+  },
+  {
+    "frame_num": 40,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 41,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 42,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 43,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 44,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 45,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 46,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 47,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 48,
+    "angles": [
+      0.0,
+      0.5305013060569763,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 49,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 50,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 51,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 52,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 53,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 54,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 55,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 3
+  },
+  {
+    "frame_num": 56,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 57,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 58,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 59,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 60,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 61,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 62,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 63,
+    "angles": [
+      0.0,
+      0.0,
+      0.1253734976053238,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 64,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 65,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 66,
+    "angles": [
+      0.40538787841796875,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 67,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 68,
+    "angles": [
+      0.0,
+      0.4373638331890106,
+      0.0
+    ],
+    "count_in": 4
+  },
+  {
+    "frame_num": 69,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 70,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 71,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 72,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 73,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 74,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 75,
+    "angles": [
+      0.0,
+      0.0,
+      0.45592495799064636
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 76,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 77,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 78,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 79,
+    "angles": [
+      0.0,
+      0.0,
+      0.4982115924358368,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 80,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 81,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 82,
+    "angles": [
+      0.151175856590271,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 5
+  },
+  {
+    "frame_num": 83,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 84,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 85,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 86,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 87,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 88,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 89,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 90,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 91,
+    "angles": [
+      0.3802761435508728,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 92,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 93,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 94,
+    "angles": [
+      1.2319773435592651,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 95,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 96,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 6
+  },
+  {
+    "frame_num": 97,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 98,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 99,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 100,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 101,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 102,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 103,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 104,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 105,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 106,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 107,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 108,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 109,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 110,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 111,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 112,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 113,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 114,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 7
+  },
+  {
+    "frame_num": 115,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 116,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 117,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 118,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 119,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 120,
+    "angles": [
+      0.12482722103595734,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 121,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 122,
+    "angles": [
+      0.0,
+      0.0,
+      0.4464516043663025,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 123,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 124,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 125,
+    "angles": [
+      0.28505125641822815,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 126,
+    "angles": [
+      0.0,
+      0.4487828016281128,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 127,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 8
+  },
+  {
+    "frame_num": 128,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 129,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 130,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 131,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 132,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 133,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 134,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 135,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 136,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 137,
+    "angles": [
+      0.6437457203865051,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 138,
+    "angles": [
+      0.43186959624290466,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 139,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 9
+  },
+  {
+    "frame_num": 140,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 141,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 142,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 143,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 144,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 145,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 146,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 147,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 148,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 149,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 150,
+    "angles": [
+      0.6173858642578125,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 151,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 152,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 153,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 154,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 10
+  },
+  {
+    "frame_num": 155,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 156,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 157,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 158,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 159,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 160,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 161,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 162,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 163,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 164,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 165,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 166,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 167,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 168,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 11
+  },
+  {
+    "frame_num": 169,
+    "angles": [
+      0.4192299246788025,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 170,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 171,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 172,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 173,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 174,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 175,
+    "angles": [
+      0.0,
+      0.0,
+      0.1540205329656601
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 176,
+    "angles": [
+      0.0,
+      0.0,
+      1.0384804010391235,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 177,
+    "angles": [
+      0.0,
+      0.6547803282737732,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 178,
+    "angles": [
+      0.0,
+      0.6227569580078125,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 179,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 180,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 181,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 182,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 183,
+    "angles": [
+      0.0,
+      0.601508378982544,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 184,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 185,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 12
+  },
+  {
+    "frame_num": 186,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 187,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 188,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 189,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 190,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 191,
+    "angles": [
+      0.0,
+      0.0,
+      1.0169780254364014,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 192,
+    "angles": [
+      0.3794366717338562,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 193,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 194,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 195,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 196,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 197,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 198,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 13
+  },
+  {
+    "frame_num": 199,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 200,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 201,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 202,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 203,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 204,
+    "angles": [
+      0.3430843949317932,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 205,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 206,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 207,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 208,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 209,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 210,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 211,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 14
+  },
+  {
+    "frame_num": 212,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 213,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 214,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 215,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 216,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 217,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 218,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 219,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 220,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 221,
+    "angles": [
+      0.0,
+      0.305572509765625,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 222,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 223,
+    "angles": [
+      0.32461851835250854,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 224,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 225,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 15
+  },
+  {
+    "frame_num": 226,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 227,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 228,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 229,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 230,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 231,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 232,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 233,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 234,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 235,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 236,
+    "angles": [
+      0.159149169921875,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 237,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 238,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 239,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 240,
+    "angles": [
+      0.0,
+      0.5758176445960999,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 241,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 242,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 243,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 244,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 16
+  },
+  {
+    "frame_num": 245,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 246,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 247,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 248,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 249,
+    "angles": [
+      0.12374114990234375,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 250,
+    "angles": [
+      0.0,
+      0.46771240234375,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 251,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 252,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 253,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 254,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 17
+  },
+  {
+    "frame_num": 255,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 256,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 257,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 258,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 259,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 260,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 261,
+    "angles": [
+      0.0,
+      0.0,
+      0.15197782218456268
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 262,
+    "angles": [
+      0.15611889958381653,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 263,
+    "angles": [
+      0.2501983046531677,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 264,
+    "angles": [
+      0.0,
+      0.53924560546875,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 265,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 266,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 267,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 268,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 18
+  },
+  {
+    "frame_num": 269,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 270,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 271,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 272,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 273,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 274,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 275,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 276,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 277,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 278,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 279,
+    "angles": [
+      0.0,
+      0.4949798583984375,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 280,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 281,
+    "angles": [
+      0.5831430554389954,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 282,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 283,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 284,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 285,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 19
+  },
+  {
+    "frame_num": 286,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 287,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 288,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 289,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 290,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 291,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 292,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 293,
+    "angles": [
+      0.42440032958984375,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 294,
+    "angles": [
+      0.0,
+      0.2886412441730499,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 295,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 296,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 297,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 20
+  },
+  {
+    "frame_num": 298,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 299,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 300,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 301,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 302,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 303,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 304,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 305,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 306,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 307,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 308,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 309,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 310,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 311,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 21
+  },
+  {
+    "frame_num": 312,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 313,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 314,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 315,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 316,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 317,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 318,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 319,
+    "angles": [
+      0.0,
+      0.0,
+      0.15697434544563293
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 320,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 321,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 322,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 323,
+    "angles": [
+      0.0,
+      0.14505229890346527,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 324,
+    "angles": [
+      0.5482682585716248,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 325,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 326,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 327,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 328,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 22
+  },
+  {
+    "frame_num": 329,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 330,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 331,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 332,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 333,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 334,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 335,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 336,
+    "angles": [
+      0.0,
+      0.8404693603515625,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 337,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 338,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 339,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 340,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 341,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 23
+  },
+  {
+    "frame_num": 342,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 343,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 344,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 345,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 346,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 347,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 348,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 349,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 350,
+    "angles": [
+      0.0,
+      0.12454986572265625,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 351,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 352,
+    "angles": [
+      0.9215684533119202,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 353,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 354,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 355,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 24
+  },
+  {
+    "frame_num": 356,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 357,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 358,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 359,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 360,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 361,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 362,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 363,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 364,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 365,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 366,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 367,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 368,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 369,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 25
+  },
+  {
+    "frame_num": 370,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 371,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 372,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 373,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 374,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 375,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 376,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 377,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 378,
+    "angles": [
+      0.0,
+      0.0,
+      0.22207553684711456,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 379,
+    "angles": [
+      0.0,
+      0.0,
+      0.37366485595703125,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 380,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 381,
+    "angles": [
+      0.6295986175537109,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 382,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 383,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 26
+  },
+  {
+    "frame_num": 384,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 385,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 386,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 387,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 388,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 389,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 390,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 391,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 392,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 393,
+    "angles": [
+      0.0,
+      0.6227569580078125,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 394,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 395,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 396,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 397,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 398,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 399,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 27
+  },
+  {
+    "frame_num": 400,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 401,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 402,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 403,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 404,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 405,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 406,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 407,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 408,
+    "angles": [
+      0.7588424682617188,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 409,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 410,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 411,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 412,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 413,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 414,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 28
+  },
+  {
+    "frame_num": 415,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 416,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 417,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 418,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 419,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 420,
+    "angles": [
+      0.0,
+      0.0,
+      1.2188751697540283,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 421,
+    "angles": [
+      0.0,
+      0.0,
+      0.284343957901001,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 422,
+    "angles": [
+      0.0,
+      0.0,
+      0.36885833740234375,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 423,
+    "angles": [
+      0.0,
+      0.0,
+      0.734527587890625,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 424,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 425,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 426,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 29
+  },
+  {
+    "frame_num": 427,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 428,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 429,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 430,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 431,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 432,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 433,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 434,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 435,
+    "angles": [
+      0.7920570969581604,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 436,
+    "angles": [
+      0.0,
+      0.5036861300468445,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 437,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 438,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 439,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 440,
+    "angles": [
+      0.4275725483894348,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 441,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 30
+  },
+  {
+    "frame_num": 442,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 443,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 444,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 445,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 446,
+    "angles": [
+      0.0,
+      0.0,
+      0.125091552734375
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 447,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 448,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 449,
+    "angles": [
+      0.0,
+      0.24911051988601685,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 450,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 451,
+    "angles": [
+      0.0,
+      0.14288194477558136,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 452,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 453,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 454,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 31
+  },
+  {
+    "frame_num": 455,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 456,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 457,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 458,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 459,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 460,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 461,
+    "angles": [
+      0.0,
+      0.7008308172225952,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 462,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 463,
+    "angles": [
+      0.12348175048828125,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 464,
+    "angles": [
+      0.0,
+      0.2901027500629425,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 465,
+    "angles": [
+      0.0,
+      0.0,
+      0.35809391736984253,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 466,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 467,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 468,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 32
+  },
+  {
+    "frame_num": 469,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 470,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 471,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 472,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 473,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 474,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 475,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 476,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 477,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 478,
+    "angles": [
+      0.0,
+      0.3752945065498352,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 479,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 480,
+    "angles": [
+      1.3711795806884766,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 481,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 482,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 483,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 33
+  },
+  {
+    "frame_num": 484,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 485,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 486,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 487,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 488,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 489,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 490,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 491,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 492,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 493,
+    "angles": [
+      0.0,
+      0.37366485595703125,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 494,
+    "angles": [
+      0.0,
+      0.5603320002555847,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 495,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 496,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 497,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 498,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 499,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 34
+  },
+  {
+    "frame_num": 500,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 501,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 502,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 503,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 504,
+    "angles": [
+      0.0,
+      0.0,
+      0.8602323532104492,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 505,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 506,
+    "angles": [
+      0.9135227799415588,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 507,
+    "angles": [
+      0.0,
+      0.12482719868421555,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 508,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 509,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 510,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 511,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 35
+  },
+  {
+    "frame_num": 512,
+    "angles": [
+      0.43847954273223877,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 513,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 514,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 515,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 516,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 517,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 518,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 519,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 520,
+    "angles": [
+      0.0,
+      0.640149712562561,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 521,
+    "angles": [
+      0.0,
+      0.14881987869739532,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 522,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 523,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 524,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 525,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 526,
+    "angles": [
+      0.0,
+      0.14805078506469727,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 527,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 528,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 36
+  },
+  {
+    "frame_num": 529,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 530,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 531,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 532,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 533,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 534,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 535,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 536,
+    "angles": [
+      0.42757415771484375,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 537,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 538,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 539,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 540,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 37
+  },
+  {
+    "frame_num": 541,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 542,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 543,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 544,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 545,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 546,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 547,
+    "angles": [
+      0.0,
+      0.0,
+      0.5100380182266235
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 548,
+    "angles": [
+      0.0,
+      0.18131516873836517,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 549,
+    "angles": [
+      0.0,
+      0.0,
+      0.13674384355545044,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 550,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 551,
+    "angles": [
+      0.0,
+      0.0,
+      0.16370178759098053,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 552,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 553,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 554,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 38
+  },
+  {
+    "frame_num": 555,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 556,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 557,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 558,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 559,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 560,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 561,
+    "angles": [
+      0.0,
+      0.0,
+      0.519282877445221
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 562,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 563,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 564,
+    "angles": [
+      0.0,
+      0.24910736083984375,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 565,
+    "angles": [
+      0.0,
+      0.0,
+      0.3331146240234375,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 566,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 567,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 568,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 569,
+    "angles": [
+      0.0,
+      0.2741403877735138,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 570,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 571,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 572,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 39
+  },
+  {
+    "frame_num": 573,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 574,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 575,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 576,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 577,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 578,
+    "angles": [
+      0.0,
+      0.12348175048828125,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 579,
+    "angles": [
+      0.7505645751953125,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 580,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 581,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 582,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 583,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 40
+  },
+  {
+    "frame_num": 584,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 585,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 586,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 587,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 588,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 589,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 590,
+    "angles": [
+      0.0,
+      0.3603460490703583,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 591,
+    "angles": [
+      0.0,
+      0.20103700459003448,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 592,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 593,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 594,
+    "angles": [
+      0.0,
+      0.16559427976608276,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 595,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 596,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 597,
+    "angles": [
+      0.14505229890346527,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 41
+  },
+  {
+    "frame_num": 598,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 599,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 600,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 601,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 602,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 603,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 604,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 605,
+    "angles": [
+      0.508529007434845,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 606,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 607,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 608,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 609,
+    "angles": [
+      0.6510604023933411,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 610,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 611,
+    "angles": [
+      0.0,
+      0.28576213121414185,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 612,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 42
+  },
+  {
+    "frame_num": 613,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 614,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 615,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 616,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 617,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 618,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 619,
+    "angles": [
+      0.0,
+      0.1457904875278473,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 620,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 621,
+    "angles": [
+      0.0,
+      0.12482722103595734,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 622,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 623,
+    "angles": [
+      0.8001683950424194,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 624,
+    "angles": [
+      0.1397455334663391,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 625,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 626,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 627,
+    "angles": [
+      0.1523820161819458,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 628,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 629,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 630,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 43
+  },
+  {
+    "frame_num": 631,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 632,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 633,
+    "angles": [
+      0.0,
+      0.6681421399116516,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 634,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 635,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 636,
+    "angles": [
+      0.0,
+      0.432952880859375,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 637,
+    "angles": [
+      0.0,
+      1.0416259765625,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 638,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 639,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 640,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 44
+  },
+  {
+    "frame_num": 641,
+    "angles": [
+      0.14323915541172028,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 642,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 643,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 644,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 645,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 646,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 647,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 648,
+    "angles": [
+      0.0,
+      1.1381769180297852,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 649,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 650,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 651,
+    "angles": [
+      0.0,
+      0.34104156494140625,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 652,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 653,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 654,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 655,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 656,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 45
+  },
+  {
+    "frame_num": 657,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 658,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 659,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 660,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 661,
+    "angles": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 662,
+    "angles": [
+      0.0,
+      0.5635468363761902,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 663,
+    "angles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  },
+  {
+    "frame_num": 664,
+    "angles": [
+      0.0,
+      0.12564843893051147,
+      0.0,
+      0.0
+    ],
+    "count_in": 46
+  }
+]
