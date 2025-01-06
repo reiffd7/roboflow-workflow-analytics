@@ -1,4 +1,4 @@
-app = "your-app-name"  # Replace with your desired app name
+app = "mars-workflow-analytics"  # Replace with your desired app name
 
 [build]
   dockerfile = "Dockerfile"
