@@ -187,6 +187,13 @@
                             <label for="video-upload">Upload Video:</label>
                             <input type="file" id="video-upload" accept=".mp4,.avi,.mov,.mkv" class="form-control">
                             <button type="button" onclick="uploadVideo()" style="margin-top: 10px;">Upload</button>
+                            <!-- Add upload progress container -->
+                            <div id="upload-progress-container" style="display: none; margin-top: 10px;">
+                                <div class="progress">
+                                    <div id="upload-progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div id="upload-progress-text" style="text-align: center; margin-top: 5px;">0%</div>
+                            </div>
                         </div>
                         <div>
                             <label for="max_fps">Max FPS:</label>
@@ -201,7 +208,7 @@
         </div>
 
         <div class="button-container">
-            <button id="start-button" onclick="startPipeline()">Start Pipeline</button>
+            <button id="start-button">Start Pipeline</button>
         </div>
         
         <div id="progress-container">
