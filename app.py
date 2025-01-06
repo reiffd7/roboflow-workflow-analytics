@@ -8,6 +8,8 @@ import yaml
 import os
 import json
 from collections import defaultdict
+from werkzeug.utils import secure_filename
+import shutil
 
 app = Flask(__name__)
 
@@ -20,8 +22,15 @@ total_frames = 0
 pipeline_status = "idle"  # Can be "idle", "initializing", "processing", "completed", "error"
 
 # Add this as a global variable at the top with the others
-OUTPUT_FRAMES_DIR = 'output_frames'
-JSON_OUTPUT_PATH = 'predictions.json'
+OUTPUT_FRAMES_DIR = '/data/output_frames'
+JSON_OUTPUT_PATH = '/data/predictions.json'
+
+# Add these configuration variables near the top with other globals
+UPLOAD_FOLDER = '/data'
+ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024  # 1GB max file size
 
 # Make sure the output directory exists
 os.makedirs(OUTPUT_FRAMES_DIR, exist_ok=True)
@@ -333,6 +342,51 @@ def get_angle_data():
         return jsonify(plot_data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload_video', methods=['POST'])
+def upload_video():
+    try:
+        if 'video' not in request.files:
+            return jsonify({'error': 'No video file provided'}), 400
+        
+        file = request.files['video']
+        if file.filename == '':
+            return jsonify({'error': 'No selected file'}), 400
+        
+        if not allowed_file(file.filename):
+            return jsonify({'error': f'Invalid file type. Allowed types: {", ".join(ALLOWED_EXTENSIONS)}'}), 400
+        
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        
+        # Save the uploaded file
+        file.save(filepath)
+        
+        # Update the config with the new video source
+        config = load_config()
+        config['video']['source'] = filepath
+        
+        # Save the updated config
+        with open('config.yaml', 'w') as f:
+            yaml.dump(config, f, default_flow_style=False)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Video uploaded successfully',
+            'filename': filename,
+            'filepath': filepath
+        })
+        
+    except Exception as e:
+        # Ensure any error returns a valid JSON response
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'Failed to upload video'
+        }), 500
 
 if __name__ == '__main__':
     # Use environment variables for host and port

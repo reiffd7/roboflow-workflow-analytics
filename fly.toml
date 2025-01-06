@@ -1,22 +1,33 @@
-app = "mars-workflow-analytics"  # Replace with your desired app name
+# fly.toml app configuration file generated for mars-workflow-analytics-restless-frog-7414 on 2025-01-06T16:11:25-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'mars-workflow-analytics-restless-frog-7414'
+primary_region = 'ewr'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
+
+[[mounts]]
+  source = 'mars_workflow_analytics_data'
+  destination = '/data'
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
 
-[[http_service.checks]]
-  grace_period = "10s"
-  interval = "30s"
-  method = "GET"
-  timeout = "5s"
-  path = "/"
+  [[http_service.checks]]
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '10s'
+    method = 'GET'
+    path = '/'
 
-[mounts]
-  source="your_app_data"
-  destination="/app/output_frames" 
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 2

@@ -182,10 +182,11 @@
 
                 <div class="config-group" style="margin-top: 15px;">
                     <h4>Video Settings</h4>
-                    <div class="config-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="config-grid" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
                         <div>
-                            <label for="video_source">Video Source:</label>
-                            <input type="text" id="video_source" name="video.source" class="form-control">
+                            <label for="video-upload">Upload Video:</label>
+                            <input type="file" id="video-upload" accept=".mp4,.avi,.mov,.mkv" class="form-control">
+                            <button type="button" onclick="uploadVideo()" style="margin-top: 10px;">Upload</button>
                         </div>
                         <div>
                             <label for="max_fps">Max FPS:</label>
@@ -393,7 +394,6 @@
                     document.getElementById('workflow_id').value = config.api?.workflow_id || '';
                     
                     // Video settings
-                    document.getElementById('video_source').value = config.video?.source || '';
                     document.getElementById('max_fps').value = config.video?.max_fps || 30;
                 });
         }
@@ -408,7 +408,6 @@
                     workflow_id: document.getElementById('workflow_id').value
                 },
                 video: {
-                    source: document.getElementById('video_source').value,
                     max_fps: parseInt(document.getElementById('max_fps').value)
                 }
             };
@@ -619,6 +618,75 @@
                     });
                 })
                 .catch(error => console.error('Error:', error));
+        }
+
+        async function uploadVideo() {
+            const fileInput = document.getElementById('video-upload');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a video file first');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('video', file);
+            
+            // Show progress container
+            const progressContainer = document.getElementById('upload-progress-container');
+            const progressBar = document.getElementById('upload-progress-bar');
+            const progressText = document.getElementById('upload-progress-text');
+            progressContainer.style.display = 'block';
+            
+            try {
+                const xhr = new XMLHttpRequest();
+                
+                // Setup progress handler
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        const percentComplete = (event.loaded / event.total) * 100;
+                        progressBar.style.width = percentComplete + '%';
+                        progressText.textContent = Math.round(percentComplete) + '%';
+                    }
+                };
+                
+                // Setup promise to handle completion
+                const uploadPromise = new Promise((resolve, reject) => {
+                    xhr.onload = () => {
+                        if (xhr.status === 200) {
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            reject(new Error('Upload failed'));
+                        }
+                    };
+                    xhr.onerror = () => reject(new Error('Upload failed'));
+                });
+                
+                // Start upload
+                xhr.open('POST', '/upload_video', true);
+                xhr.send(formData);
+                
+                // Wait for completion
+                const data = await uploadPromise;
+                
+                // Update the video source input with the new filepath
+                alert('Video uploaded successfully!');
+                
+                // Optionally trigger config update
+                const configForm = document.getElementById('config-form');
+                const formEvent = new Event('submit');
+                configForm.dispatchEvent(formEvent);
+                
+            } catch (error) {
+                alert('Error uploading video: ' + error.message);
+            } finally {
+                // Hide progress container after completion (success or failure)
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    progressBar.style.width = '0%';
+                    progressText.textContent = '0%';
+                }, 1000);
+            }
         }
     </script>
 </body>
