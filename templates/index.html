@@ -158,21 +158,13 @@
     <div class="container">
         <h1>📹 Roboflow Video Analytics 📹</h1>
         
-        <!-- New configuration section -->
+        <!-- Simplified configuration section -->
         <div id="config-section" style="margin-bottom: 20px;">
             <h3>Configuration</h3>
             <form id="config-form" onsubmit="updateConfig(event)">
                 <div class="config-group">
-                    <h4>API Settings</h4>
-                    <div class="config-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label for="api_key">API Key:</label>
-                            <input type="text" id="api_key" name="api.key" class="form-control">
-                        </div>
-                        <div>
-                            <label for="workspace_name">Workspace Name:</label>
-                            <input type="text" id="workspace_name" name="api.workspace_name" class="form-control">
-                        </div>
+                    <h4>Workflow Settings</h4>
+                    <div class="config-grid" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
                         <div>
                             <label for="workflow_id">Workflow ID:</label>
                             <input type="text" id="workflow_id" name="api.workflow_id" class="form-control">
@@ -187,17 +179,12 @@
                             <label for="video-upload">Upload Video:</label>
                             <input type="file" id="video-upload" accept=".mp4,.avi,.mov,.mkv" class="form-control">
                             <button type="button" onclick="uploadVideo()" style="margin-top: 10px;">Upload</button>
-                            <!-- Add upload progress container -->
                             <div id="upload-progress-container" style="display: none; margin-top: 10px;">
                                 <div class="progress">
                                     <div id="upload-progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
                                 </div>
                                 <div id="upload-progress-text" style="text-align: center; margin-top: 5px;">0%</div>
                             </div>
-                        </div>
-                        <div>
-                            <label for="max_fps">Max FPS:</label>
-                            <input type="number" id="max_fps" name="video.max_fps" min="1" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -378,11 +365,7 @@
             fetch('/get_config')
                 .then(response => response.json())
                 .then(config => {
-                    document.getElementById('api_key').value = config.api?.key || '';
-                    document.getElementById('workspace_name').value = config.api?.workspace_name || '';
                     document.getElementById('workflow_id').value = config.api?.workflow_id || '';
-                    
-                    document.getElementById('max_fps').value = config.video?.max_fps || 30;
                 });
         }
 
@@ -391,12 +374,10 @@
             
             const config = {
                 api: {
-                    key: document.getElementById('api_key').value,
-                    workspace_name: document.getElementById('workspace_name').value,
                     workflow_id: document.getElementById('workflow_id').value
                 },
                 video: {
-                    max_fps: parseInt(document.getElementById('max_fps').value)
+                    source: '' // This will be updated when video is uploaded
                 }
             };
 

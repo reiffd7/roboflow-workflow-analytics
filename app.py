@@ -82,16 +82,13 @@ def load_config():
         with open('config.yaml', 'r') as file:
             return yaml.safe_load(file)
     except FileNotFoundError:
-        # Return default empty configuration
+        # Return default configuration with only workflow_id
         return {
             'api': {
-                'key': '',
-                'workspace_name': '',
                 'workflow_id': ''
             },
             'video': {
-                'source': '',
-                'max_fps': 30
+                'source': ''
             }
         }
 
@@ -224,24 +221,21 @@ def update_config():
     try:
         new_config = request.get_json()
         
-        # Create default structure if missing fields
+        # Create default structure with only workflow_id
         default_config = {
             'api': {
-                'key': '',
-                'workspace_name': '',
                 'workflow_id': ''
             },
             'video': {
-                'source': '',
-                'max_fps': 30
+                'source': ''
             }
         }
         
         # Update default config with provided values
         if 'api' in new_config:
-            default_config['api'].update(new_config['api'])
+            default_config['api'].update({'workflow_id': new_config['api'].get('workflow_id', '')})
         if 'video' in new_config:
-            default_config['video'].update(new_config['video'])
+            default_config['video'].update({'source': new_config['video'].get('source', '')})
 
         # Write the new configuration to the YAML file
         with open('config.yaml', 'w') as file:
