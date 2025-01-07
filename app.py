@@ -39,6 +39,12 @@ os.makedirs(OUTPUT_FRAMES_DIR, exist_ok=True)
 with open(JSON_OUTPUT_PATH, 'w') as f:
     json.dump([], f)
 
+# Add near the top of the file with other initialization code
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+if not os.access(UPLOAD_FOLDER, os.W_OK):
+    raise RuntimeError(f"Upload directory {UPLOAD_FOLDER} is not writable")
+
 def load_config():
     try:
         with open('config.yaml', 'r') as file:
@@ -362,16 +368,30 @@ def upload_video():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         
+        # Add debug logging
+        print(f"Saving file to: {filepath}")
+        
         # Save the uploaded file
         file.save(filepath)
         
+        # Verify file exists after save
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'File failed to save'}), 500
+            
         # Update the config with the new video source
         config = load_config()
         config['video']['source'] = filepath
         
+        # Add debug logging
+        print(f"Updated config with video source: {filepath}")
+        
         # Save the updated config
         with open('config.yaml', 'w') as f:
             yaml.dump(config, f, default_flow_style=False)
+            
+        # Verify config was saved
+        new_config = load_config()
+        print(f"Reloaded config to verify: {new_config}")
         
         return jsonify({
             'success': True,
@@ -381,7 +401,7 @@ def upload_video():
         })
         
     except Exception as e:
-        # Ensure any error returns a valid JSON response
+        print(f"Upload error: {str(e)}")  # Add error logging
         return jsonify({
             'success': False,
             'error': str(e),
