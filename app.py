@@ -10,6 +10,9 @@ import json
 from collections import defaultdict
 from werkzeug.utils import secure_filename
 import shutil
+import logging
+from logging.handlers import RotatingFileHandler
+import sys
 
 app = Flask(__name__)
 
@@ -44,6 +47,39 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 if not os.access(UPLOAD_FOLDER, os.W_OK):
     raise RuntimeError(f"Upload directory {UPLOAD_FOLDER} is not writable")
+
+def setup_logging():
+    # Configure logging to output to both file and console
+    logger = logging.getLogger('pipeline_app')
+    logger.setLevel(logging.DEBUG)
+    
+    # Create formatters
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+    # Console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(formatter)
+    
+    # File handler
+    file_handler = RotatingFileHandler(
+        'app.log', 
+        maxBytes=1024 * 1024,  # 1MB
+        backupCount=5
+    )
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+    
+    # Add handlers
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+    
+    return logger
+
+# Initialize logger
+logger = setup_logging()
 
 def load_config():
     try:
@@ -356,34 +392,38 @@ def allowed_file(filename):
 def upload_video():
     try:
         if 'video' not in request.files:
+            logger.error('No video file provided in request')
             return jsonify({'error': 'No video file provided'}), 400
         
         file = request.files['video']
         if file.filename == '':
+            logger.error('No selected file')
             return jsonify({'error': 'No selected file'}), 400
         
         if not allowed_file(file.filename):
+            logger.error(f'Invalid file type: {file.filename}')
             return jsonify({'error': f'Invalid file type. Allowed types: {", ".join(ALLOWED_EXTENSIONS)}'}), 400
         
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         
-        # Add debug logging
-        print(f"Saving file to: {filepath}")
+        logger.info(f"Attempting to save file to: {filepath}")
         
         # Save the uploaded file
         file.save(filepath)
         
         # Verify file exists after save
         if not os.path.exists(filepath):
+            logger.error(f"File failed to save at path: {filepath}")
             return jsonify({'error': 'File failed to save'}), 500
+            
+        logger.info(f"File successfully saved at: {filepath}")
             
         # Update the config with the new video source
         config = load_config()
         config['video']['source'] = filepath
         
-        # Add debug logging
-        print(f"Updated config with video source: {filepath}")
+        logger.info(f"Updating config with video source: {filepath}")
         
         # Save the updated config
         with open('config.yaml', 'w') as f:
@@ -391,7 +431,7 @@ def upload_video():
             
         # Verify config was saved
         new_config = load_config()
-        print(f"Reloaded config to verify: {new_config}")
+        logger.info(f"Config updated and reloaded: {new_config}")
         
         return jsonify({
             'success': True,
@@ -401,7 +441,7 @@ def upload_video():
         })
         
     except Exception as e:
-        print(f"Upload error: {str(e)}")  # Add error logging
+        logger.exception(f"Error during video upload: {str(e)}")
         return jsonify({
             'success': False,
             'error': str(e),
