@@ -233,7 +233,7 @@
                 <div id="frame-number">Frame: 0</div>
             </div>
         </div>
-        <div id="prediction-plot" style="width:100%; height:400px; display:none;"></div>
+        <!-- <div id="prediction-plot" style="width:100%; height:400px; display:none;"></div> -->
     </div>
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -246,48 +246,38 @@
                     const progressBar = document.getElementById('progress-bar');
                     const progressText = document.getElementById('progress-text');
                     const startButton = document.getElementById('start-button');
-                    const predictionPlot = document.getElementById('prediction-plot');
                     
-                    // Update status message
                     switch(data.status) {
                         case 'idle':
                             statusText.textContent = 'Ready to start';
                             statusText.className = 'alert alert-info';
                             startButton.disabled = false;
-                            predictionPlot.style.display = 'none';  // Hide plot
                             break;
                         case 'initializing':
                             statusText.textContent = 'Initializing pipeline...';
                             statusText.className = 'alert alert-warning';
                             startButton.disabled = true;
-                            predictionPlot.style.display = 'none';  // Hide plot
                             break;
                         case 'processing':
                             statusText.textContent = 'Processing video...';
                             statusText.className = 'alert alert-primary';
                             startButton.disabled = true;
-                            predictionPlot.style.display = 'none';  // Hide plot
                             break;
                         case 'completed':
                             statusText.textContent = 'Processing completed!';
                             statusText.className = 'alert alert-success';
                             startButton.disabled = false;
-                            predictionPlot.style.display = 'block';  // Show plot
-                            updatePlot();  // Initialize plot when complete
                             break;
                         case 'error':
                             statusText.textContent = 'An error occurred';
                             statusText.className = 'alert alert-danger';
                             startButton.disabled = false;
-                            predictionPlot.style.display = 'none';  // Hide plot
                             break;
                     }
                     
-                    // Update progress
                     progressBar.style.width = data.progress_percentage + '%';
                     progressText.textContent = `Processed ${data.frames_processed}/${data.total_frames} frames (${data.progress_percentage}%)`;
                     
-                    // Continue updating if not complete or error
                     if (data.status !== 'completed' && data.status !== 'error') {
                         setTimeout(updateStatus, 1000);
                     }
@@ -303,17 +293,15 @@
                         frameInput.max = maxFrame;
                         
                         const liveFrame = document.getElementById('live-frame');
-                        liveFrame.src = `/frame/0`;  // Show first frame
+                        liveFrame.src = `/frame/0`;
                     }
                 });
         }
 
-        // Update the click handler
         document.getElementById('start-button').addEventListener('click', function() {
             const startButton = this;
             const statusText = document.getElementById('status-text');
             
-            // Disable button immediately
             startButton.disabled = true;
             statusText.textContent = 'Starting pipeline...';
             statusText.className = 'alert alert-warning';
@@ -331,7 +319,6 @@
                 });
         });
 
-        // Update the existing slider event listener and add new input listener
         document.getElementById('frame-slider').addEventListener('input', function() {
             const frameNumber = parseInt(this.value);
             updateFrameDisplay(frameNumber);
@@ -341,11 +328,9 @@
             const frameNumber = parseInt(this.value);
             const maxFrame = parseInt(this.max);
             
-            // Ensure the input is within valid range
             if (frameNumber < 0) this.value = 0;
             if (frameNumber > maxFrame) this.value = maxFrame;
             
-            // Update slider and display
             document.getElementById('frame-slider').value = this.value;
             updateFrameDisplay(parseInt(this.value));
         });
@@ -359,7 +344,7 @@
 
         let isPlaying = false;
         let playbackInterval;
-        const PLAYBACK_FPS = 30; // Adjust this value to control playback speed
+        const PLAYBACK_FPS = 30;
 
         function togglePlayback() {
             const playButton = document.getElementById('play-button');
@@ -382,7 +367,6 @@
             const maxFrame = parseInt(frameSlider.max);
             
             if (currentFrame >= maxFrame) {
-                // Stop at the end
                 togglePlayback();
                 return;
             }
@@ -390,17 +374,14 @@
             updateFrameDisplay(currentFrame + 1);
         }
 
-        // Configuration handling
         function loadConfig() {
             fetch('/get_config')
                 .then(response => response.json())
                 .then(config => {
-                    // API settings
                     document.getElementById('api_key').value = config.api?.key || '';
                     document.getElementById('workspace_name').value = config.api?.workspace_name || '';
                     document.getElementById('workflow_id').value = config.api?.workflow_id || '';
                     
-                    // Video settings
                     document.getElementById('max_fps').value = config.video?.max_fps || 30;
                 });
         }
@@ -435,14 +416,12 @@
             });
         }
 
-        // Load config when page loads
         document.addEventListener('DOMContentLoaded', loadConfig);
 
         function updatePlot() {
             fetch('/angle_data')
                 .then(response => response.json())
                 .then(data => {
-                    // Add dropdown for time unit selector
                     if (!document.getElementById('time-unit-selector')) {
                         const plotContainer = document.getElementById('prediction-plot');
                         const controlsDiv = document.createElement('div');
@@ -450,7 +429,6 @@
                         controlsDiv.style.gap = '10px';
                         controlsDiv.style.marginBottom = '10px';
                         
-                        // Time unit selector
                         const timeSelector = document.createElement('select');
                         timeSelector.id = 'time-unit-selector';
                         timeSelector.className = 'form-control';
@@ -461,7 +439,6 @@
                             <option value="minute">Per Minute</option>
                         `;
                         
-                        // Aggregation selector
                         const aggSelector = document.createElement('select');
                         aggSelector.id = 'aggregation-selector';
                         aggSelector.className = 'form-control';
@@ -488,11 +465,10 @@
                     const anglesByTimeIndex = {};
                     const countsByTimeIndex = {};
                     
-                    // Process the data arrays
                     for (let i = 0; i < data.frames.length; i++) {
                         const frame = data.frames[i];
                         const angles = data.angles?.[i] || [];
-                        const count_in = data.count_in?.[i] || 0;  // Changed to count_in
+                        const count_in = data.count_in?.[i] || 0;
                         
                         let timeIndex;
                         switch(timeUnit) {
@@ -502,24 +478,21 @@
                             case 'minute':
                                 timeIndex = Math.floor(frame / (FPS * 60));
                                 break;
-                            default: // frame
+                            default:
                                 timeIndex = frame;
                         }
 
-                        // Initialize arrays for this time index if needed
                         if (!(timeIndex in anglesByTimeIndex)) {
                             anglesByTimeIndex[timeIndex] = [];
                             countsByTimeIndex[timeIndex] = [];
                             frameMapping[timeIndex] = frame;
                         }
                         
-                        // Add values for this frame to the time index
                         if (angles.length > 0) {
                             anglesByTimeIndex[timeIndex].push(...angles);
                         }
-                        countsByTimeIndex[timeIndex].push(count_in);  // Add the count_in value
+                        countsByTimeIndex[timeIndex].push(count_in);
 
-                        // Initialize traces if they don't exist
                         if (!traces['angle']) {
                             traces['angle'] = {
                                 x: [],
@@ -537,7 +510,7 @@
                             traces['count'] = {
                                 x: [],
                                 y: [],
-                                name: 'Count In',  // Updated name
+                                name: 'Count In',
                                 type: 'scatter',
                                 mode: 'lines+markers',
                                 opacity: 0.8,
@@ -548,12 +521,10 @@
                         }
                     }
 
-                    // Process aggregated data
                     const aggregationType = document.getElementById('aggregation-selector').value;
                     Object.entries(anglesByTimeIndex).forEach(([timeIndex, angles]) => {
                         const counts = countsByTimeIndex[timeIndex];
                         
-                        // Aggregate angles
                         let aggregatedAngle = 0;
                         if (angles.length > 0) {
                             switch(aggregationType) {
@@ -569,7 +540,6 @@
                             }
                         }
 
-                        // Aggregate count_in values
                         let aggregatedCount = 0;
                         if (counts.length > 0) {
                             switch(aggregationType) {
@@ -605,7 +575,7 @@
                             side: 'left'
                         },
                         yaxis2: {
-                            title: 'Count In',  // Updated title
+                            title: 'Count In',
                             side: 'right',
                             overlaying: 'y'
                         },
@@ -615,7 +585,6 @@
 
                     Plotly.newPlot('prediction-plot', Object.values(traces), layout);
 
-                    // Update click handler
                     document.getElementById('prediction-plot').on('plotly_click', function(data) {
                         const point = data.points[0];
                         const frameNumber = point.customdata;
@@ -639,7 +608,6 @@
             const formData = new FormData();
             formData.append('video', file);
             
-            // Show progress container
             const progressContainer = document.getElementById('upload-progress-container');
             const progressBar = document.getElementById('upload-progress-bar');
             const progressText = document.getElementById('upload-progress-text');
@@ -648,7 +616,6 @@
             try {
                 const xhr = new XMLHttpRequest();
                 
-                // Setup progress handler
                 xhr.upload.onprogress = (event) => {
                     if (event.lengthComputable) {
                         const percentComplete = (event.loaded / event.total) * 100;
@@ -657,7 +624,6 @@
                     }
                 };
                 
-                // Setup promise to handle completion
                 const uploadPromise = new Promise((resolve, reject) => {
                     xhr.onload = () => {
                         if (xhr.status === 200) {
@@ -669,17 +635,13 @@
                     xhr.onerror = () => reject(new Error('Upload failed'));
                 });
                 
-                // Start upload
                 xhr.open('POST', '/upload_video', true);
                 xhr.send(formData);
                 
-                // Wait for completion
                 const data = await uploadPromise;
                 
-                // Update the video source input with the new filepath
                 alert('Video uploaded successfully!');
                 
-                // Optionally trigger config update
                 const configForm = document.getElementById('config-form');
                 const formEvent = new Event('submit');
                 configForm.dispatchEvent(formEvent);
@@ -687,7 +649,6 @@
             } catch (error) {
                 alert('Error uploading video: ' + error.message);
             } finally {
-                // Hide progress container after completion (success or failure)
                 setTimeout(() => {
                     progressContainer.style.display = 'none';
                     progressBar.style.width = '0%';
