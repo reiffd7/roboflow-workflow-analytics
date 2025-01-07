@@ -361,43 +361,38 @@
             updateFrameDisplay(currentFrame + 1);
         }
 
-        function loadConfig() {
-            fetch('/get_config')
-                .then(response => response.json())
-                .then(config => {
-                    document.getElementById('workflow_id').value = config.api?.workflow_id || '';
-                });
-        }
-
         function updateConfig(event) {
             event.preventDefault();
             
-            const config = {
-                api: {
-                    workflow_id: document.getElementById('workflow_id').value
-                },
-                video: {
-                    source: '' // This will be updated when video is uploaded
-                }
-            };
+            // First fetch existing config
+            fetch('/get_config')
+                .then(response => response.json())
+                .then(existingConfig => {
+                    const config = {
+                        api: {
+                            workflow_id: document.getElementById('workflow_id').value
+                        },
+                        video: {
+                            source: existingConfig.video?.source || '' // Preserve existing video source
+                        }
+                    };
 
-            fetch('/update_config', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(config)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Configuration updated successfully!');
-            })
-            .catch(error => {
-                alert('Failed to update configuration');
-            });
+                    return fetch('/update_config', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(config)
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Configuration updated successfully!');
+                })
+                .catch(error => {
+                    alert('Failed to update configuration');
+                });
         }
-
-        document.addEventListener('DOMContentLoaded', loadConfig);
 
         function updatePlot() {
             fetch('/angle_data')

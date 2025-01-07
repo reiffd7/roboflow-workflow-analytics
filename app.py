@@ -44,6 +44,16 @@ if not os.path.exists(UPLOAD_FOLDER):
 if not os.access(UPLOAD_FOLDER, os.W_OK):
     raise RuntimeError(f"Upload directory {UPLOAD_FOLDER} is not writable")
 
+# Replace config file handling with in-memory config
+app_config = {
+    'api': {
+        'workflow_id': ''
+    },
+    'video': {
+        'source': ''
+    }
+}
+
 def setup_logging():
     # Configure logging to output to both file and console
     logger = logging.getLogger('pipeline_app')
@@ -76,21 +86,6 @@ def setup_logging():
 
 # Initialize logger
 logger = setup_logging()
-
-def load_config():
-    try:
-        with open('config.yaml', 'r') as file:
-            return yaml.safe_load(file)
-    except FileNotFoundError:
-        # Return default configuration with only workflow_id
-        return {
-            'api': {
-                'workflow_id': ''
-            },
-            'video': {
-                'source': ''
-            }
-        }
 
 def get_video_dimensions(video_source):
     cap = cv2.VideoCapture(video_source)
@@ -149,8 +144,7 @@ def get_status():
 def process_video_frames():
     global frames_processed, total_frames, pipeline_status, latest_image
     try:
-        config = load_config()
-        video_source = config['video']['source']
+        video_source = app_config['video']['source']
         
         cap = cv2.VideoCapture(video_source)
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -210,36 +204,18 @@ def get_frame(frame_number):
 
 @app.route('/get_config')
 def get_config():
-    try:
-        config = load_config()
-        return jsonify(config)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return jsonify(app_config)
 
 @app.route('/update_config', methods=['POST'])
 def update_config():
     try:
         new_config = request.get_json()
         
-        # Create default structure with only workflow_id
-        default_config = {
-            'api': {
-                'workflow_id': ''
-            },
-            'video': {
-                'source': ''
-            }
-        }
-        
-        # Update default config with provided values
+        # Update existing config with provided values
         if 'api' in new_config:
-            default_config['api'].update({'workflow_id': new_config['api'].get('workflow_id', '')})
+            app_config['api']['workflow_id'] = new_config['api'].get('workflow_id', '')
         if 'video' in new_config:
-            default_config['video'].update({'source': new_config['video'].get('source', '')})
-
-        # Write the new configuration to the YAML file
-        with open('config.yaml', 'w') as file:
-            yaml.dump(default_config, file, default_flow_style=False)
+            app_config['video']['source'] = new_config['video'].get('source', '')
         
         return jsonify({"message": "Configuration updated successfully"})
     except Exception as e:
@@ -328,18 +304,9 @@ def upload_video():
         logger.info(f"File successfully saved at: {filepath}")
             
         # Update the config with the new video source
-        config = load_config()
-        config['video']['source'] = filepath
+        app_config['video']['source'] = filepath
         
-        logger.info(f"Updating config with video source: {filepath}")
-        
-        # Save the updated config
-        with open('config.yaml', 'w') as f:
-            yaml.dump(config, f, default_flow_style=False)
-            
-        # Verify config was saved
-        new_config = load_config()
-        logger.info(f"Config updated and reloaded: {new_config}")
+        logger.info(f"Updated config with video source: {filepath}")
         
         return jsonify({
             'success': True,
