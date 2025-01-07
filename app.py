@@ -1,15 +1,11 @@
 from flask import Flask, jsonify, Response, render_template, send_file, request
 from io import BytesIO
 from PIL import Image
-# Import the InferencePipeline object
-from inference import InferencePipeline
 import cv2
 import yaml
 import os
 import json
-from collections import defaultdict
 from werkzeug.utils import secure_filename
-import shutil
 import logging
 from logging.handlers import RotatingFileHandler
 import sys
@@ -108,66 +104,6 @@ def get_video_dimensions(video_source):
     return width, height, total
 
 
-def my_sink(result, video_frame):
-    global latest_image, frames_processed
-    
-    print(f"my_sink called with result keys: {result.keys()}")  # Debug line
-    print(f"video_frame type: {type(video_frame)}")  # Debug line
-    
-    try:
-        # Ensure output directory exists
-        os.makedirs(OUTPUT_FRAMES_DIR, exist_ok=True)
-        
-        if result.get("line_counter_visualization"):
-            print(f"Output image found in result")  # Debug line
-            frame = result["line_counter_visualization"].numpy_image
-            # Convert BGR to RGB
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            latest_image = frame_rgb
-            
-            # Create frame filename with absolute path
-            frame_filename = os.path.abspath(os.path.join(OUTPUT_FRAMES_DIR, f'frame_{frames_processed:06d}.jpg'))
-            
-            # Save the frame as an RGB image file
-            img = Image.fromarray(frame_rgb)
-            img.save(frame_filename)
-            
-            print(f"Saved frame to: {frame_filename}")  # Debug print
-            frames_processed += 1
-            print(f"Processed frame {frames_processed}/{total_frames}")
-        else:
-            print(f"No output_image in result")  # Debug line
-        if result.get("angles"):
-            print(f"angles found in result")  # Debug line
-            print(f"angles: {result['angles']}")  # Debug line
-            
-            # Create the prediction entry
-            prediction_entry = {
-                'frame_num': frames_processed - 1,
-                'angles': result['angles'],
-                'count_in': result['count_in']
-            }
-        else:
-            prediction_entry = {
-                'frame_num': frames_processed,
-                'angles': [],
-                'count_in': 0
-            }
-        
-        # Read existing predictions
-        with open(JSON_OUTPUT_PATH, 'r') as f:
-            all_predictions = json.load(f)
-        
-        # Append new prediction
-        all_predictions.append(prediction_entry)
-        
-        # Write back to file
-        with open(JSON_OUTPUT_PATH, 'w') as f:
-            json.dump(all_predictions, f, indent=2)
-    except Exception as e:
-        print(f"Error in my_sink: {str(e)}")
-        raise  # Re-raise the exception to ensure it's logged properly
-
 @app.route('/video_feed')
 def video_feed():
     def generate_frames():
@@ -213,77 +149,55 @@ def get_status():
         "progress_percentage": round((frames_processed / total_frames * 100) if total_frames > 0 else 0, 2)
     })
 
+def process_video_frames():
+    global frames_processed, total_frames, pipeline_status, latest_image
+    try:
+        config = load_config()
+        video_source = config['video']['source']
+        
+        cap = cv2.VideoCapture(video_source)
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        frames_processed = 0
+        
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+                
+            # Convert BGR to RGB
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            latest_image = frame_rgb
+            
+            # Save frame
+            frame_filename = os.path.join(OUTPUT_FRAMES_DIR, f'frame_{frames_processed:06d}.jpg')
+            img = Image.fromarray(frame_rgb)
+            img.save(frame_filename)
+            
+            # Update progress
+            frames_processed += 1
+            
+        cap.release()
+        pipeline_status = "completed"
+        
+    except Exception as e:
+        pipeline_status = "error"
+        logger.exception(f"Error processing video: {str(e)}")
+
 @app.route('/start_pipeline', methods=['GET'])
 def start_pipeline():
     global frames_processed, total_frames, pipeline_status
     
-    # Check if configuration is valid before starting
-    config = load_config()
-    if not all([
-        config['api']['key'],
-        config['api']['workspace_name'],
-        config['api']['workflow_id'],
-        config['video']['source']
-    ]):
-        return jsonify({
-            "status": "error",
-            "message": "Please configure the pipeline settings first"
-        }), 400
-    
-    # Reset predictions.json
-    with open(JSON_OUTPUT_PATH, 'w') as f:
-        json.dump([], f)
-    
-    # Immediately update status
-    pipeline_status = "initializing"
+    # Reset state
+    pipeline_status = "processing"
     frames_processed = 0
     
     try:
-        # Load configuration
-        config = load_config()
-        print(f"Loaded config: {config}")  # Debug line
-        
-        # Get total frames count before starting pipeline
-        _, _, total_frames = get_video_dimensions(config['video']['source'])
-        print(f"Total frames detected: {total_frames}")  # Debug line
-        
-        # Initialize pipeline in a separate thread
-        def run_pipeline():
-            global pipeline_status
-            try:
-                pipeline_status = "pipeline_initializing"
-                print("Initializing pipeline...")  # Debug line
-                pipeline = InferencePipeline.init_with_workflow(
-                    api_key=config['api']['key'],
-                    workspace_name=config['api']['workspace_name'],
-                    workflows_parameters={
-                        "line": [[75,445],[600,445]],
-                        "zone": [[33,14],[593,14],[601,631],[24,625]]
-                    },
-                    workflow_id=config['api']['workflow_id'],
-                    video_reference=config['video']['source'],
-                    max_fps=config['video']['max_fps'],
-                    on_prediction=my_sink
-                )
-                print("Pipeline initialized, starting...")  # Debug line
-                pipeline.start()
-                pipeline_status = "pipeline_processing"
-                print("Pipeline started, joining thread...")  # Debug line
-                pipeline.join()
-                print("Pipeline joined, completing...")  # Debug line
-                pipeline_status = "completed"
-            except Exception as e:
-                pipeline_status = "error"
-                print(f"Pipeline error: {str(e)}")
-                print(f"Error type: {type(e)}")  # Debug line
-                import traceback
-                print(f"Traceback: {traceback.format_exc()}")  # Debug line
-                
+        # Start processing in a separate thread
         import threading
-        thread = threading.Thread(target=run_pipeline)
+        thread = threading.Thread(target=process_video_frames)
         thread.start()
         
-        return jsonify({"status": "Pipeline initialization started"})
+        return jsonify({"status": "Video processing started"})
         
     except Exception as e:
         pipeline_status = "error"
