@@ -1,48 +1,38 @@
-from flask import Flask, jsonify, Response, render_template, send_file, request
+from flask import Flask, jsonify, Response, render_template, send_file, request, redirect
 from io import BytesIO
 from PIL import Image
 import cv2
 import yaml
 import os
 import json
+from supabase import create_client, Client
 from werkzeug.utils import secure_filename
 import logging
 from logging.handlers import RotatingFileHandler
 import sys
+import requests
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
+
+# Supabase configuration
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+BUCKET_NAME = 'workflow_analytics'  # Create this bucket in Supabase
+ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
 
 # Add global variables for tracking progress
 latest_image = None
 frames_processed = 0
 total_frames = 0
 
+
+
 # Add new global variable for pipeline status
 pipeline_status = "idle"  # Can be "idle", "initializing", "processing", "completed", "error"
 
-# Add this as a global variable at the top with the others
-OUTPUT_FRAMES_DIR = '/data/output_frames'
-JSON_OUTPUT_PATH = '/data/predictions.json'
 
-# Add these configuration variables near the top with other globals
-UPLOAD_FOLDER = '/data'
-ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024  # 1GB max file size
-
-# Make sure the output directory exists
-os.makedirs(OUTPUT_FRAMES_DIR, exist_ok=True)
-
-# Initialize the JSON file with an empty list
-with open(JSON_OUTPUT_PATH, 'w') as f:
-    json.dump([], f)
-
-# Add near the top of the file with other initialization code
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-if not os.access(UPLOAD_FOLDER, os.W_OK):
-    raise RuntimeError(f"Upload directory {UPLOAD_FOLDER} is not writable")
 
 # Replace config file handling with in-memory config
 app_config = {
@@ -50,9 +40,12 @@ app_config = {
         'workflow_id': ''
     },
     'video': {
-        'source': ''
+        'source': '',
+        'folder_name': ''
     }
 }
+
+FRAMES_DIR = "static/frames"  # Store frames in Flask's static folder for easy serving
 
 def setup_logging():
     # Configure logging to output to both file and console
@@ -86,14 +79,6 @@ def setup_logging():
 
 # Initialize logger
 logger = setup_logging()
-
-def get_video_dimensions(video_source):
-    cap = cv2.VideoCapture(video_source)
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    cap.release()
-    return width, height, total
 
 
 @app.route('/video_feed')
@@ -145,8 +130,23 @@ def process_video_frames():
     global frames_processed, total_frames, pipeline_status, latest_image
     try:
         video_source = app_config['video']['source']
+        folder_name = app_config['video']['folder_name']
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
         
-        cap = cv2.VideoCapture(video_source)
+        # Create frames directory if it doesn't exist
+        frames_path = os.path.join(FRAMES_DIR, folder_name)
+        os.makedirs(frames_path, exist_ok=True)
+        
+        # Download and process video
+        with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
+            video_path = f"{folder_name}/video/{os.path.basename(video_source)}"
+            logger.info(f"Downloading video from path: {video_path}")
+            
+            response = supabase.storage.from_(BUCKET_NAME).download(video_path)
+            temp_file.write(response)
+            temp_path = temp_file.name
+        
+        cap = cv2.VideoCapture(temp_path)
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         frames_processed = 0
         
@@ -155,24 +155,56 @@ def process_video_frames():
             if not ret:
                 break
                 
-            # Convert BGR to RGB
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             latest_image = frame_rgb
             
-            # Save frame
-            frame_filename = os.path.join(OUTPUT_FRAMES_DIR, f'frame_{frames_processed:06d}.jpg')
-            img = Image.fromarray(frame_rgb)
-            img.save(frame_filename)
+            # Save frame locally
+            frame_filename = f'frame_{frames_processed:06d}.jpg'
+            frame_path = os.path.join(frames_path, frame_filename)
             
-            # Update progress
+            # Save only if frame doesn't exist
+            if not os.path.exists(frame_path):
+                img = Image.fromarray(frame_rgb)
+                img.save(frame_path, format='JPEG', quality=85)
+            
             frames_processed += 1
             
         cap.release()
         pipeline_status = "completed"
+        os.unlink(temp_path)
         
     except Exception as e:
         pipeline_status = "error"
         logger.exception(f"Error processing video: {str(e)}")
+
+def upload_batch(supabase: Client, bucket: str, paths: list, frames: list):
+    """Upload multiple frames in parallel"""
+    
+    def upload_single(args):
+        path, frame_data = args
+        try:
+            # Check if frame exists first
+            try:
+                supabase.storage.from_(bucket).download(path)
+                logger.debug(f"Frame already exists, skipping upload: {path}")
+                return
+            except Exception:
+                pass
+                
+            # Upload if doesn't exist
+            supabase.storage.from_(bucket).upload(
+                path,
+                frame_data,
+                file_options={"content-type": "image/jpeg"}
+            )
+            logger.debug(f"Uploaded new frame: {path}")
+        except Exception as e:
+            if 'Duplicate' not in str(e):
+                logger.error(f"Error uploading frame {path}: {str(e)}")
+
+    # Use ThreadPoolExecutor for parallel uploads
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(upload_single, zip(paths, frames))
 
 @app.route('/start_pipeline', methods=['GET'])
 def start_pipeline():
@@ -196,11 +228,20 @@ def start_pipeline():
 
 @app.route('/frame/<int:frame_number>')
 def get_frame(frame_number):
-    frame_path = os.path.join(OUTPUT_FRAMES_DIR, f'frame_{frame_number:06d}.jpg')
     try:
-        return send_file(frame_path, mimetype='image/jpeg')
-    except FileNotFoundError:
-        return jsonify({"error": "Frame not found"}), 404
+        folder_name = app_config['video']['folder_name']
+        frame_filename = f'frame_{frame_number:06d}.jpg'
+        frame_path = os.path.join(FRAMES_DIR, folder_name, frame_filename)
+        
+        if os.path.exists(frame_path):
+            return send_file(frame_path, mimetype='image/jpeg')
+        else:
+            logger.error(f"Frame not found: {frame_path}")
+            return jsonify({"error": "Frame not found"}), 404
+            
+    except Exception as e:
+        logger.exception(f"Error retrieving frame: {str(e)}")
+        return jsonify({"error": "Server error"}), 500
 
 @app.route('/get_config')
 def get_config():
@@ -221,98 +262,138 @@ def update_config():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/prediction_counts')
-def get_prediction_counts():
-    try:
-        with open(JSON_OUTPUT_PATH, 'r') as f:
-            predictions = json.load(f)
+# @app.route('/prediction_counts')
+# def get_prediction_counts():
+#     try:
+#         with open(JSON_OUTPUT_PATH, 'r') as f:
+#             predictions = json.load(f)
         
-        # Create a list of dictionaries for plotting
-        plot_data = []
-        for pred in predictions:
-            # Count occurrences of each class in this frame
-            class_counts = defaultdict(int)
-            for class_name in pred['class_names']:
-                class_counts[class_name] += 1
+#         # Create a list of dictionaries for plotting
+#         plot_data = []
+#         for pred in predictions:
+#             # Count occurrences of each class in this frame
+#             class_counts = defaultdict(int)
+#             for class_name in pred['class_names']:
+#                 class_counts[class_name] += 1
             
-            # Add each class count as a separate row
-            for class_name, count in class_counts.items():
-                plot_data.append({
-                    'frame': pred['frame_num'],
-                    'class': class_name,
-                    'count': count
-                })
+#             # Add each class count as a separate row
+#             for class_name, count in class_counts.items():
+#                 plot_data.append({
+#                     'frame': pred['frame_num'],
+#                     'class': class_name,
+#                     'count': count
+#                 })
         
-        return jsonify(plot_data)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+#         return jsonify(plot_data)
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
 
-@app.route('/angle_data')
-def get_angle_data():
-    try:
-        with open(JSON_OUTPUT_PATH, 'r') as f:
-            predictions = json.load(f)
+# @app.route('/angle_data')
+# def get_angle_data():
+#     try:
+#         with open(JSON_OUTPUT_PATH, 'r') as f:
+#             predictions = json.load(f)
         
-        # Simplified data structure with raw angles
-        plot_data = {
-            'frames': [],
-            'angles': [],  # Raw angles array for each frame
-            'count_in': []
-        }
+#         # Simplified data structure with raw angles
+#         plot_data = {
+#             'frames': [],
+#             'angles': [],  # Raw angles array for each frame
+#             'count_in': []
+#         }
         
-        for pred in predictions:
-            plot_data['frames'].append(pred['frame_num'])
-            plot_data['angles'].append(pred.get('angles', []))  # Use empty list as default
-            plot_data['count_in'].append(pred['count_in'])
+#         for pred in predictions:
+#             plot_data['frames'].append(pred['frame_num'])
+#             plot_data['angles'].append(pred.get('angles', []))  # Use empty list as default
+#             plot_data['count_in'].append(pred['count_in'])
         
-        return jsonify(plot_data)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+#         return jsonify(plot_data)
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def validate_video_file(file):
+    """Validate the uploaded video file."""
+    if not file or file.filename == '':
+        logger.error('No video file provided')
+        return False, 'No video file provided'
+    
+    if not allowed_file(file.filename):
+        logger.error(f'Invalid file type: {file.filename}')
+        return False, f'Invalid file type. Allowed types: {", ".join(ALLOWED_EXTENSIONS)}'
+    
+    return True, None
+
+def check_existing_video(supabase: Client, video_path: str):
+    """Check if video already exists in Supabase storage."""
+    try:
+        supabase.storage.from_(BUCKET_NAME).download(video_path)
+        file_url = supabase.storage.from_(BUCKET_NAME).get_public_url(video_path)
+        return True, file_url
+    except Exception as e:
+        logger.debug(f"File doesn't exist yet (expected): {str(e)}")
+        return False, None
+
+def upload_to_supabase(supabase: Client, video_path: str, file_content: bytes):
+    """Upload video to Supabase storage and return public URL."""
+    logger.info(f"Attempting to upload file to Supabase: {video_path}")
+    
+    supabase.storage.from_(BUCKET_NAME).upload(video_path, file_content)
+    file_url = supabase.storage.from_(BUCKET_NAME).get_public_url(video_path)
+    
+    logger.info(f"File successfully uploaded to Supabase: {file_url}")
+    return file_url
+
 @app.route('/upload_video', methods=['POST'])
 def upload_video():
     try:
+        # Validate request
         if 'video' not in request.files:
-            logger.error('No video file provided in request')
-            return jsonify({'error': 'No video file provided'}), 400
+            logger.error('No video file in request')
+            return jsonify({'error': 'No video file in request'}), 400
         
         file = request.files['video']
-        if file.filename == '':
-            logger.error('No selected file')
-            return jsonify({'error': 'No selected file'}), 400
+        is_valid, error_message = validate_video_file(file)
+        if not is_valid:
+            return jsonify({'error': error_message}), 400
         
-        if not allowed_file(file.filename):
-            logger.error(f'Invalid file type: {file.filename}')
-            return jsonify({'error': f'Invalid file type. Allowed types: {", ".join(ALLOWED_EXTENSIONS)}'}), 400
-        
+        # Process filename
         filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        folder_name = os.path.splitext(filename)[0]
+        video_path = f"{folder_name}/video/{filename}"
         
-        logger.info(f"Attempting to save file to: {filepath}")
+        # Check for existing file
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        exists, existing_url = check_existing_video(supabase, video_path)
         
-        # Save the uploaded file
-        file.save(filepath)
+        if exists:
+            app_config['video'].update({
+                'source': existing_url,
+                'folder_name': folder_name
+            })
+            return jsonify({
+                'success': True,
+                'message': 'File already exists, config updated',
+                'file_url': existing_url,
+                'folder_name': folder_name
+            }), 200
         
-        # Verify file exists after save
-        if not os.path.exists(filepath):
-            logger.error(f"File failed to save at path: {filepath}")
-            return jsonify({'error': 'File failed to save'}), 500
-            
-        logger.info(f"File successfully saved at: {filepath}")
-            
-        # Update the config with the new video source
-        app_config['video']['source'] = filepath
+        # Upload new file
+        file_url = upload_to_supabase(supabase, video_path, file.read())
         
-        logger.info(f"Updated config with video source: {filepath}")
+        # Update config
+        app_config['video'].update({
+            'source': file_url,
+            'folder_name': folder_name
+        })
         
         return jsonify({
             'success': True,
             'message': 'Video uploaded successfully',
             'filename': filename,
-            'filepath': filepath
+            'file_url': file_url,
+            'folder_name': folder_name
         })
         
     except Exception as e:
