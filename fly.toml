@@ -12,6 +12,7 @@ primary_region = 'ewr'
 [[mounts]]
   source = 'mars_workflow_analytics_data'
   destination = '/data'
+  
 
 [http_service]
   internal_port = 8080
@@ -31,3 +32,6 @@ primary_region = 'ewr'
   memory = '2gb'
   cpu_kind = 'shared'
   cpus = 2
+
+[env]
+  SUPABASE_URL = "https://rlstohtqonbhrcwrdcru.supabase.co"
