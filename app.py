@@ -13,6 +13,7 @@ import sys
 import requests
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -45,7 +46,7 @@ app_config = {
     }
 }
 
-FRAMES_DIR = "static/frames"  # Store frames in Flask's static folder for easy serving
+FRAMES_DIR = os.getenv('FRAMES_DIR', os.path.join(os.path.dirname(__file__), 'frames'))
 
 def setup_logging():
     # Configure logging to output to both file and console
@@ -130,16 +131,14 @@ def process_video_frames():
     global frames_processed, total_frames, pipeline_status, latest_image
     try:
         video_source = app_config['video']['source']
-        folder_name = app_config['video']['folder_name']
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
         
-        # Create frames directory if it doesn't exist
-        frames_path = os.path.join(FRAMES_DIR, folder_name)
-        os.makedirs(frames_path, exist_ok=True)
+        # Use a single frames directory for all videos
+        os.makedirs(FRAMES_DIR, exist_ok=True)
         
         # Download and process video
         with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
-            video_path = f"{folder_name}/video/{os.path.basename(video_source)}"
+            video_path = f"{app_config['video']['folder_name']}/video/{os.path.basename(video_source)}"
             logger.info(f"Downloading video from path: {video_path}")
             
             response = supabase.storage.from_(BUCKET_NAME).download(video_path)
@@ -158,14 +157,13 @@ def process_video_frames():
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             latest_image = frame_rgb
             
-            # Save frame locally
+            # Save frame locally (always overwrite)
             frame_filename = f'frame_{frames_processed:06d}.jpg'
-            frame_path = os.path.join(frames_path, frame_filename)
+            frame_path = os.path.join(FRAMES_DIR, frame_filename)
             
-            # Save only if frame doesn't exist
-            if not os.path.exists(frame_path):
-                img = Image.fromarray(frame_rgb)
-                img.save(frame_path, format='JPEG', quality=85)
+            # Always save frame, overwriting any existing one
+            img = Image.fromarray(frame_rgb)
+            img.save(frame_path, format='JPEG', quality=85)
             
             frames_processed += 1
             
@@ -229,9 +227,8 @@ def start_pipeline():
 @app.route('/frame/<int:frame_number>')
 def get_frame(frame_number):
     try:
-        folder_name = app_config['video']['folder_name']
         frame_filename = f'frame_{frame_number:06d}.jpg'
-        frame_path = os.path.join(FRAMES_DIR, folder_name, frame_filename)
+        frame_path = os.path.join(FRAMES_DIR, frame_filename)
         
         if os.path.exists(frame_path):
             return send_file(frame_path, mimetype='image/jpeg')
@@ -404,7 +401,29 @@ def upload_video():
             'message': 'Failed to upload video'
         }), 500
 
+def setup_storage():
+    """Setup storage directories on the mounted volume"""
+    try:
+        # Ensure frames directory exists
+        os.makedirs(FRAMES_DIR, exist_ok=True)
+        
+        # Test write access
+        test_file = os.path.join(FRAMES_DIR, '.write_test')
+        try:
+            with open(test_file, 'w') as f:
+                f.write(str(datetime.now()))
+            os.remove(test_file)
+            logger.info(f"Successfully setup frame storage at: {FRAMES_DIR}")
+        except Exception as e:
+            logger.error(f"Storage write test failed: {e}")
+            raise
+            
+    except Exception as e:
+        logger.error(f"Storage setup failed: {e}")
+        raise
+
+# Add this to your startup code
 if __name__ == '__main__':
-    # Use environment variables for host and port
+    setup_storage()  # Ensure volume is properly mounted and writable
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
