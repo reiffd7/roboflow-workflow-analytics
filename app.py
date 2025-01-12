@@ -130,6 +130,13 @@ def get_status():
 def process_video_frames():
     global frames_processed, total_frames, pipeline_status, latest_image
     try:
+        # Clean up existing frames
+        logger.info("Cleaning up existing frames...")
+        for file in os.listdir(FRAMES_DIR):
+            if file.endswith('.jpg'):
+                os.remove(os.path.join(FRAMES_DIR, file))
+        logger.info("Frames directory cleaned")
+
         video_source = app_config['video']['source']
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
         
@@ -161,9 +168,18 @@ def process_video_frames():
             frame_filename = f'frame_{frames_processed:06d}.jpg'
             frame_path = os.path.join(FRAMES_DIR, frame_filename)
             
-            # Always save frame, overwriting any existing one
+            # Convert to PIL Image and resize
             img = Image.fromarray(frame_rgb)
-            img.save(frame_path, format='JPEG', quality=85)
+            # Reduce to 720p or smaller while maintaining aspect ratio
+            width, height = img.size
+            target_height = 720
+            if height > target_height:
+                ratio = target_height / height
+                new_width = int(width * ratio)
+                img = img.resize((new_width, target_height), Image.Resampling.LANCZOS)
+            
+            # Save with reduced quality
+            img.save(frame_path, format='JPEG', quality=70)
             
             frames_processed += 1
             
