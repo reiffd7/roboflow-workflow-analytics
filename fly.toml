@@ -30,9 +30,9 @@ primary_region = 'ewr'
     path = '/'
 
 [[vm]]
-  memory = '2gb'
   cpu_kind = 'shared'
-  cpus = 2
+  cpus = 4
+  memory_mb = 8192
   count = 1
 
 [env]

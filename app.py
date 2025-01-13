@@ -14,6 +14,7 @@ import requests
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+import numpy as np
 
 app = Flask(__name__)
 
@@ -162,13 +163,8 @@ def process_video_frames():
                 break
                 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            latest_image = frame_rgb
             
-            # Save frame locally (always overwrite)
-            frame_filename = f'frame_{frames_processed:06d}.jpg'
-            frame_path = os.path.join(FRAMES_DIR, frame_filename)
-            
-            # Convert to PIL Image and resize
+            # Convert to PIL Image and resize for both latest_image and saving
             img = Image.fromarray(frame_rgb)
             # Reduce to 720p or smaller while maintaining aspect ratio
             width, height = img.size
@@ -177,6 +173,13 @@ def process_video_frames():
                 ratio = target_height / height
                 new_width = int(width * ratio)
                 img = img.resize((new_width, target_height), Image.Resampling.LANCZOS)
+            
+            # Update latest_image with the resized version
+            latest_image = np.array(img)
+            
+            # Save frame locally (always overwrite)
+            frame_filename = f'frame_{frames_processed:06d}.jpg'
+            frame_path = os.path.join(FRAMES_DIR, frame_filename)
             
             # Save with reduced quality
             img.save(frame_path, format='JPEG', quality=70)
