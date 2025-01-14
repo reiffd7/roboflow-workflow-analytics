@@ -208,21 +208,24 @@
             <div id="progress-text">Processed 0/0 frames (0%)</div>
         </div>
         <div class="video-container">
-            <img id="live-frame" src="{{ url_for('video_feed') }}" />
-            <div id="frame-selector" style="display: none; margin-top: 20px;">
+            <div id="frame-viewer-container">
+                <img id="live-frame" />
+            </div>
+            <div id="frame-controls" style="display: none; margin-top: 20px;">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                    <button id="play-button" onclick="togglePlayback()">
+                    <button id="play-pause-btn">
                         <span id="play-icon">▶</span>
                     </button>
                     <input type="range" id="frame-slider" min="0" value="0" style="flex-grow: 1;">
                     <input type="number" id="frame-input" min="0" value="0" style="width: 80px;">
                 </div>
-                <div id="frame-number">Frame: 0</div>
+                <div id="frame-info">Frame: 0 / 0</div>
             </div>
         </div>
         <!-- <div id="prediction-plot" style="width:100%; height:400px; display:none;"></div> -->
     </div>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="{{ url_for('static', filename='js/frame_viewer.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>

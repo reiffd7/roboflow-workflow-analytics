@@ -2,6 +2,15 @@
 let isPlaying = false;
 let playbackInterval;
 const PLAYBACK_FPS = 10;
+let frameViewer = null;
+
+// Initialize the frame viewer after processing is complete
+async function initializeFrameViewer() {
+    if (!frameViewer) {
+        frameViewer = new FrameViewer();
+        await frameViewer.initialize();
+    }
+}
 
 // DOM Elements
 const elements = {
@@ -58,11 +67,7 @@ const StatusManager = {
     },
 
     handleCompletion(data) {
-        elements.frameSelector.style.display = 'block';
-        const maxFrame = data.total_frames - 1;
-        elements.frameSlider.max = maxFrame;
-        elements.frameInput.max = maxFrame;
-        elements.liveFrame.src = '/frame/0';
+        initializeFrameViewer();
     }
 };
 
@@ -326,4 +331,19 @@ async function handleVideoUpload() {
         console.error('Upload failed:', error);
         alert('Upload failed: ' + error.message);
     }
-} 
+}
+
+// Update your existing processing complete handler
+function handleProcessingComplete() {
+    // ... existing code ...
+    initializeFrameViewer();
+}
+
+// You might also want to check for existing frames on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    const response = await fetch('/api/frames_info');
+    const data = await response.json();
+    if (data.frames_ready) {
+        initializeFrameViewer();
+    }
+}); 

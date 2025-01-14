@@ -11,7 +11,7 @@ primary_region = 'ewr'
 
 [[mounts]]
   source = 'mars_workflow_analytics_data'
-  destination = '/data'
+  destination="/app/static/frames"
   
 
 [http_service]

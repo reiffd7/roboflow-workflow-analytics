@@ -16,7 +16,11 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import numpy as np
 
-app = Flask(__name__)
+# Set paths based on environment
+STATIC_FOLDER = 'static'
+FRAMES_DIR = os.path.join(STATIC_FOLDER, 'frames')
+
+app = Flask(__name__, static_folder=STATIC_FOLDER)
 
 # Supabase configuration
 SUPABASE_URL = os.getenv('SUPABASE_URL')
@@ -50,8 +54,6 @@ app_config = {
         'key': SUPABASE_KEY  # Using anon key, never expose service_role key
     }
 }
-
-FRAMES_DIR = os.getenv('FRAMES_DIR', os.path.join(os.path.dirname(__file__), 'frames'))
 
 def setup_logging():
     # Configure logging to output to both file and console
@@ -202,34 +204,6 @@ def process_video_frames():
         pipeline_status = "error"
         logger.exception(f"Error processing video: {str(e)}")
 
-def upload_batch(supabase: Client, bucket: str, paths: list, frames: list):
-    """Upload multiple frames in parallel"""
-    
-    def upload_single(args):
-        path, frame_data = args
-        try:
-            # Check if frame exists first
-            try:
-                supabase.storage.from_(bucket).download(path)
-                logger.debug(f"Frame already exists, skipping upload: {path}")
-                return
-            except Exception:
-                pass
-                
-            # Upload if doesn't exist
-            supabase.storage.from_(bucket).upload(
-                path,
-                frame_data,
-                file_options={"content-type": "image/jpeg"}
-            )
-            logger.debug(f"Uploaded new frame: {path}")
-        except Exception as e:
-            if 'Duplicate' not in str(e):
-                logger.error(f"Error uploading frame {path}: {str(e)}")
-
-    # Use ThreadPoolExecutor for parallel uploads
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        executor.map(upload_single, zip(paths, frames))
 
 @app.route('/start_pipeline', methods=['GET'])
 def start_pipeline():
@@ -251,21 +225,21 @@ def start_pipeline():
         pipeline_status = "error"
         return jsonify({"status": "error", "message": str(e)}), 500
 
-@app.route('/frame/<int:frame_number>')
-def get_frame(frame_number):
-    try:
-        frame_filename = f'frame_{frame_number:06d}.jpg'
-        frame_path = os.path.join(FRAMES_DIR, frame_filename)
-        
-        if os.path.exists(frame_path):
-            return send_file(frame_path, mimetype='image/jpeg')
-        else:
-            logger.error(f"Frame not found: {frame_path}")
-            return jsonify({"error": "Frame not found"}), 404
-            
-    except Exception as e:
-        logger.exception(f"Error retrieving frame: {str(e)}")
-        return jsonify({"error": "Server error"}), 500
+# @app.route('/frame/<int:frame_number>')
+# def get_frame(frame_number):
+#     try:
+#         frame_filename = f'frame_{frame_number:06d}.jpg'
+#         frame_path = os.path.join(FRAMES_DIR, frame_filename)
+#         
+#         if os.path.exists(frame_path):
+#             return send_file(frame_path, mimetype='image/jpeg')
+#         else:
+#             logger.error(f"Frame not found: {frame_path}")
+#             return jsonify({"error": "Frame not found"}), 404
+#             
+#     except Exception as e:
+#         logger.exception(f"Error retrieving frame: {str(e)}")
+#         return jsonify({"error": "Server error"}), 500
 
 @app.route('/get_config')
 def get_config():
@@ -448,6 +422,34 @@ def setup_storage():
     except Exception as e:
         logger.error(f"Storage setup failed: {e}")
         raise
+
+@app.route('/api/processing_complete', methods=['POST'])
+def processing_complete():
+    """Endpoint to notify when video processing is complete"""
+    try:
+        data = request.get_json()
+        total_frames = data.get('total_frames', 0)
+        return jsonify({
+            "success": True,
+            "total_frames": total_frames
+        })
+    except Exception as e:
+        logger.exception("Error handling processing complete notification")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/frames_info')
+def get_frames_info():
+    """Return information about available frames"""
+    try:
+        frames = [f for f in os.listdir(FRAMES_DIR) if f.endswith('.jpg')]
+        return jsonify({
+            "total_frames": len(frames),
+            "frame_pattern": "frame_{:06d}.jpg",  # Pattern for frame filenames
+            "frames_ready": bool(frames)
+        })
+    except Exception as e:
+        logger.exception("Error getting frames info")
+        return jsonify({"error": str(e)}), 500
 
 # Add this to your startup code
 if __name__ == '__main__':
