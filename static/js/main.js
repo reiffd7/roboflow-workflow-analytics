@@ -158,7 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (startButton) {
         startButton.addEventListener('click', async () => {
             try {
-                const response = await fetch('/start_pipeline', { method: 'GET' });  // Changed to match backend
+                // Reset frame viewer
+                frameViewer = null;  // This will allow initializeFrameViewer to create a new instance
+                
+                const response = await fetch('/start_pipeline', { method: 'GET' });
                 if (!response.ok) {
                     throw new Error('Failed to start pipeline');
                 }

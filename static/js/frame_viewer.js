@@ -34,7 +34,10 @@ class FrameViewer {
 
     async initialize() {
         try {
+            // Clear cache and reset UI before fetching new frames
             this.clearCache();
+            this.controlsContainer.style.display = 'none'; // Hide controls while loading
+            this.imageElement.src = ''; // Clear current image
 
             const response = await fetch('/api/frames_info');
             const data = await response.json();
@@ -46,6 +49,8 @@ class FrameViewer {
                 this.framePattern = data.frame_pattern;
                 this.sliderElement.max = this.totalFrames - 1;
                 this.frameInput.max = this.totalFrames - 1;
+                this.sliderElement.value = 0; // Reset slider position
+                this.frameInput.value = 0;    // Reset frame input
                 this.controlsContainer.style.display = 'block';
                 this.updateFrameInfo();
                 await this.showFrame(0);
@@ -121,5 +126,7 @@ class FrameViewer {
         this.imageCache.clear();
         this.currentFrame = 0;
         this.totalFrames = 0;
+        this.isPlaying = false;                                    // Reset playback state
+        this.playPauseBtn.querySelector('span').textContent = '▶'; // Reset play button
     }
 }
