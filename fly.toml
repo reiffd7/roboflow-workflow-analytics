@@ -37,4 +37,3 @@ primary_region = 'ewr'
 
 [env]
   SUPABASE_URL = "https://rlstohtqonbhrcwrdcru.supabase.co"
-  FRAMES_DIR = "/data"

@@ -171,6 +171,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('config-form').addEventListener('submit', (e) => ConfigManager.updateConfig(e));
 });
 
+// Move handleVideoUpload function above the export
+async function handleVideoUpload() {
+    const fileInput = document.getElementById('video-upload');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('Please select a file first');
+        return;
+    }
+
+    try {
+        const result = await uploadVideo(file);
+        console.log('Upload completed:', result);
+    } catch (error) {
+        console.error('Upload failed:', error);
+        alert('Upload failed: ' + error.message);
+    }
+}
+
 // Export functions that need to be accessed from HTML
 window.togglePlayback = () => FrameManager.togglePlayback();
 window.handleVideoUpload = handleVideoUpload;
@@ -314,24 +333,6 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         // Update UI to show error
     }
 });
-
-async function handleVideoUpload() {
-    const fileInput = document.getElementById('video-upload');
-    const file = fileInput.files[0];
-    
-    if (!file) {
-        alert('Please select a file first');
-        return;
-    }
-
-    try {
-        const result = await uploadVideo(file);
-        console.log('Upload completed:', result);
-    } catch (error) {
-        console.error('Upload failed:', error);
-        alert('Upload failed: ' + error.message);
-    }
-}
 
 // Update your existing processing complete handler
 function handleProcessingComplete() {

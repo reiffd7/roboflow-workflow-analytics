@@ -20,6 +20,8 @@ import glob
 # Set paths based on environment
 STATIC_FOLDER = 'static'
 FRAMES_DIR = os.path.join(STATIC_FOLDER, 'frames')
+# Use a single frames directory for all videos
+os.makedirs(FRAMES_DIR, exist_ok=True)
 
 app = Flask(__name__, static_folder=STATIC_FOLDER)
 
@@ -33,8 +35,6 @@ ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
 latest_image = None
 frames_processed = 0
 total_frames = 0
-
-
 
 # Add new global variable for pipeline status
 pipeline_status = "idle"  # Can be "idle", "initializing", "processing", "completed", "error"
@@ -89,6 +89,47 @@ def setup_logging():
 # Initialize logger
 logger = setup_logging()
 
+class FrameStorage:
+    def __init__(self, base_dir='static'):
+        self.base_dir = base_dir
+        self.frames_dir = os.path.join(base_dir, 'frames')
+        self._ensure_directories()
+
+    def _ensure_directories(self):
+        """Ensure required directories exist"""
+        os.makedirs(self.frames_dir, exist_ok=True)
+
+    def cleanup(self):
+        """Remove all JPG files from frames directory"""
+        for file in glob.glob(os.path.join(self.frames_dir, '*.jpg')):
+            try:
+                os.remove(file)
+            except OSError as e:
+                logger.error(f"Error deleting {file}: {e}")
+
+    def get_frame_path(self, frame_number):
+        """Get path for a specific frame"""
+        return os.path.join(self.frames_dir, f'frame_{frame_number:06d}.jpg')
+
+    def save_frame(self, frame_number, image, quality=70):
+        """Save a frame to disk"""
+        frame_path = self.get_frame_path(frame_number)
+        image.save(frame_path, format='JPEG', quality=quality)
+
+    def test_write_access(self):
+        """Test write access to frames directory"""
+        test_file = os.path.join(self.frames_dir, '.write_test')
+        try:
+            with open(test_file, 'w') as f:
+                f.write(str(datetime.now()))
+            os.remove(test_file)
+            return True
+        except Exception as e:
+            logger.error(f"Storage write test failed: {e}")
+            return False
+
+# Initialize frame storage
+frame_storage = FrameStorage(STATIC_FOLDER)
 
 @app.route('/video_feed')
 def video_feed():
@@ -140,16 +181,13 @@ def process_video_frames():
     try:
         # Clean up existing frames
         logger.info("Cleaning up existing frames...")
-        for file in os.listdir(FRAMES_DIR):
-            if file.endswith('.jpg'):
-                os.remove(os.path.join(FRAMES_DIR, file))
+        frame_storage.cleanup()
         logger.info("Frames directory cleaned")
 
         video_source = app_config['video']['source']
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
         
-        # Use a single frames directory for all videos
-        os.makedirs(FRAMES_DIR, exist_ok=True)
+
         
         # Download and process video
         with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
@@ -175,7 +213,7 @@ def process_video_frames():
                 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             
-            # Convert to PIL Image and resize for both latest_image and saving
+            # Convert to PIL Image and resize
             img = Image.fromarray(frame_rgb)
             # Reduce to 720p or smaller while maintaining aspect ratio
             width, height = img.size
@@ -188,13 +226,8 @@ def process_video_frames():
             # Update latest_image with the resized version
             latest_image = np.array(img)
             
-            # Save frame locally (always overwrite)
-            frame_filename = f'frame_{frames_processed:06d}.jpg'
-            frame_path = os.path.join(FRAMES_DIR, frame_filename)
-            
-            # Save with reduced quality
-            img.save(frame_path, format='JPEG', quality=70)
-            
+            # Save frame using frame storage
+            frame_storage.save_frame(frames_processed, img)
             frames_processed += 1
             
         cap.release()
@@ -405,24 +438,9 @@ def upload_video():
 
 def setup_storage():
     """Setup storage directories on the mounted volume"""
-    try:
-        # Ensure frames directory exists
-        os.makedirs(FRAMES_DIR, exist_ok=True)
-        
-        # Test write access
-        test_file = os.path.join(FRAMES_DIR, '.write_test')
-        try:
-            with open(test_file, 'w') as f:
-                f.write(str(datetime.now()))
-            os.remove(test_file)
-            logger.info(f"Successfully setup frame storage at: {FRAMES_DIR}")
-        except Exception as e:
-            logger.error(f"Storage write test failed: {e}")
-            raise
-            
-    except Exception as e:
-        logger.error(f"Storage setup failed: {e}")
-        raise
+    if not frame_storage.test_write_access():
+        raise RuntimeError("Failed to setup frame storage - write access test failed")
+    logger.info(f"Successfully setup frame storage at: {frame_storage.frames_dir}")
 
 @app.route('/api/processing_complete', methods=['POST'])
 def processing_complete():
@@ -442,10 +460,10 @@ def processing_complete():
 def get_frames_info():
     """Return information about available frames"""
     try:
-        frames = [f for f in os.listdir(FRAMES_DIR) if f.endswith('.jpg')]
+        frames = [f for f in os.listdir(frame_storage.frames_dir) if f.endswith('.jpg')]
         return jsonify({
             "total_frames": len(frames),
-            "frame_pattern": "frame_{:06d}.jpg",  # Pattern for frame filenames
+            "frame_pattern": "frame_{:06d}.jpg",
             "frames_ready": bool(frames)
         })
     except Exception as e:
@@ -454,13 +472,7 @@ def get_frames_info():
 
 @app.route('/api/cleanup_frames', methods=['POST'])
 def cleanup_frames():
-    frames_directory = os.path.join('static', 'frames')
-    # Remove all jpg files in the frames directory
-    for file in glob.glob(os.path.join(frames_directory, '*.jpg')):
-        try:
-            os.remove(file)
-        except OSError as e:
-            print(f"Error deleting {file}: {e}")
+    frame_storage.cleanup()
     return jsonify({'status': 'success'})
 
 # Add this to your startup code
