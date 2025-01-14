@@ -194,6 +194,13 @@ async function handleVideoUpload() {
 window.togglePlayback = () => FrameManager.togglePlayback();
 window.handleVideoUpload = handleVideoUpload;
 
+// Add this to ensure functions are available after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Re-expose functions to window after DOM is loaded
+    window.handleVideoUpload = handleVideoUpload;
+    window.togglePlayback = () => FrameManager.togglePlayback();
+});
+
 async function uploadVideo(file) {
     try {
         console.log('Starting upload process for file:', file.name, 'Type:', file.type);
