@@ -138,37 +138,22 @@ const ConfigManager = {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
+    // First expose the functions globally
+    window.handleVideoUpload = handleVideoUpload;
+    window.togglePlayback = () => FrameManager.togglePlayback();
+    
+    // Then initialize elements
     elements.init();
-
-    // Start button
-    elements.startButton.addEventListener('click', async function() {
-        this.disabled = true;
-        elements.statusText.textContent = 'Starting pipeline...';
-        elements.statusText.className = 'alert alert-warning';
-        
-        try {
-            await fetch('/start_pipeline').then(res => res.json());
-            StatusManager.updateStatus();
-        } catch (error) {
-            elements.statusText.textContent = 'Failed to start pipeline';
-            elements.statusText.className = 'alert alert-danger';
-            this.disabled = false;
-        }
-    });
-
-    // Frame controls
-    elements.frameSlider.addEventListener('input', function() {
-        FrameManager.updateFrameDisplay(parseInt(this.value));
-    });
-
-    elements.frameInput.addEventListener('change', function() {
-        const frameNumber = Math.max(0, Math.min(parseInt(this.value), parseInt(this.max)));
-        this.value = frameNumber;
-        FrameManager.updateFrameDisplay(frameNumber);
-    });
-
-    // Form submission
-    document.getElementById('config-form').addEventListener('submit', (e) => ConfigManager.updateConfig(e));
+    
+    // Finally add event listeners
+    const uploadButton = document.getElementById('upload-button');
+    if (uploadButton) {
+        uploadButton.addEventListener('click', handleVideoUpload);
+    } else {
+        console.error('Upload button not found in DOM');
+    }
+    
+    // ... rest of your initialization code ...
 });
 
 // Move handleVideoUpload function above the export
