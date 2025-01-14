@@ -153,7 +153,25 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Upload button not found in DOM');
     }
     
-    // ... rest of your initialization code ...
+    // Add start button handler with correct endpoint
+    const startButton = document.getElementById('start-button');
+    if (startButton) {
+        startButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/start_pipeline', { method: 'GET' });  // Changed to match backend
+                if (!response.ok) {
+                    throw new Error('Failed to start pipeline');
+                }
+                // Start polling for status updates
+                StatusManager.updateStatus();
+            } catch (error) {
+                console.error('Failed to start pipeline:', error);
+                alert('Failed to start pipeline: ' + error.message);
+            }
+        });
+    } else {
+        console.error('Start button not found in DOM');
+    }
 });
 
 // Move handleVideoUpload function above the export
