@@ -44,6 +44,10 @@ app_config = {
     'video': {
         'source': '',
         'folder_name': ''
+    },
+    'supabase': {
+        'url': SUPABASE_URL,
+        'key': SUPABASE_KEY  # Using anon key, never expose service_role key
     }
 }
 
@@ -146,10 +150,14 @@ def process_video_frames():
         
         # Download and process video
         with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
-            video_path = f"{app_config['video']['folder_name']}/video/{os.path.basename(video_source)}"
-            logger.info(f"Downloading video from path: {video_path}")
+            video_path = app_config['video']['source']
             
-            response = supabase.storage.from_(BUCKET_NAME).download(video_path)
+            # Extract relative path from the public URL
+            # Example URL: https://...supabase.co/storage/v1/object/public/workflow_analytics/folder/video/file.mp4
+            relative_path = video_path.split('/workflow_analytics/')[-1] if '/workflow_analytics/' in video_path else video_path
+            logger.info(f"Downloading video from relative path: {relative_path}")
+            
+            response = supabase.storage.from_(BUCKET_NAME).download(relative_path)
             temp_file.write(response)
             temp_path = temp_file.name
         
