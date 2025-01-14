@@ -15,6 +15,7 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import numpy as np
+import glob
 
 # Set paths based on environment
 STATIC_FOLDER = 'static'
@@ -450,6 +451,17 @@ def get_frames_info():
     except Exception as e:
         logger.exception("Error getting frames info")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/cleanup_frames', methods=['POST'])
+def cleanup_frames():
+    frames_directory = os.path.join('static', 'frames')
+    # Remove all jpg files in the frames directory
+    for file in glob.glob(os.path.join(frames_directory, '*.jpg')):
+        try:
+            os.remove(file)
+        except OSError as e:
+            print(f"Error deleting {file}: {e}")
+    return jsonify({'status': 'success'})
 
 # Add this to your startup code
 if __name__ == '__main__':

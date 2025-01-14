@@ -33,38 +33,58 @@ class FrameViewer {
     }
 
     async initialize() {
-        const response = await fetch('/api/frames_info');
-        const data = await response.json();
-        
-        if (data.frames_ready) {
-            this.totalFrames = data.total_frames;
-            this.framePattern = data.frame_pattern;  // Store the pattern
-            this.sliderElement.max = this.totalFrames - 1;
-            this.frameInput.max = this.totalFrames - 1;
-            this.controlsContainer.style.display = 'block';
-            this.updateFrameInfo();
-            await this.showFrame(0);
+        try {
+            this.clearCache();
+
+            const response = await fetch('/api/frames_info');
+            const data = await response.json();
+            
+            console.log('Frames info response:', data);
+            
+            if (data.frames_ready) {
+                this.totalFrames = data.total_frames;
+                this.framePattern = data.frame_pattern;
+                this.sliderElement.max = this.totalFrames - 1;
+                this.frameInput.max = this.totalFrames - 1;
+                this.controlsContainer.style.display = 'block';
+                this.updateFrameInfo();
+                await this.showFrame(0);
+            } else {
+                console.warn('Frames not ready:', data);
+            }
+        } catch (error) {
+            console.error('Error in initialize:', error);
         }
     }
 
     async showFrame(frameNumber) {
-        if (frameNumber >= 0 && frameNumber < this.totalFrames) {
-            this.currentFrame = frameNumber;
-            
-            if (!this.imageCache.has(frameNumber)) {
-                // Format the frame number with leading zeros
-                const paddedNumber = frameNumber.toString().padStart(6, '0');
-                const frameName = `frame_${paddedNumber}.jpg`;
-                const response = await fetch(`/static/frames/${frameName}`);
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                this.imageCache.set(frameNumber, url);
+        try {
+            if (frameNumber >= 0 && frameNumber < this.totalFrames) {
+                this.currentFrame = frameNumber;
+                
+                if (!this.imageCache.has(frameNumber)) {
+                    const paddedNumber = frameNumber.toString().padStart(6, '0');
+                    const frameName = `frame_${paddedNumber}.jpg`;
+                    console.log('Loading frame:', frameName); // Debug log
+                    
+                    const response = await fetch(`/static/frames/${frameName}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    this.imageCache.set(frameNumber, url);
+                }
+                
+                this.imageElement.src = this.imageCache.get(frameNumber);
+                this.sliderElement.value = frameNumber;
+                this.frameInput.value = frameNumber;
+                this.updateFrameInfo();
+            } else {
+                console.warn('Invalid frame number:', frameNumber); // Debug log
             }
-            
-            this.imageElement.src = this.imageCache.get(frameNumber);
-            this.sliderElement.value = frameNumber;
-            this.frameInput.value = frameNumber;
-            this.updateFrameInfo();
+        } catch (error) {
+            console.error('Error in showFrame:', error); // Error logging
         }
     }
 
@@ -92,4 +112,14 @@ class FrameViewer {
             this.playPauseBtn.querySelector('span').textContent = '▶';
         }
     }
-} 
+
+    clearCache() {
+        // Release object URLs to prevent memory leaks
+        for (let url of this.imageCache.values()) {
+            URL.revokeObjectURL(url);
+        }
+        this.imageCache.clear();
+        this.currentFrame = 0;
+        this.totalFrames = 0;
+    }
+}
