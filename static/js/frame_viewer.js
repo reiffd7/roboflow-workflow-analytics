@@ -1,5 +1,7 @@
 class FrameViewer {
     constructor(options = {}) {
+        this.instanceId = frameViewerInstanceCount;  // Add this to track instance
+        console.log(`🏗️ Constructing FrameViewer #${this.instanceId}`);
         this.container = document.getElementById(options.containerId || 'frame-viewer-container');
         this.imageElement = document.getElementById(options.imageId || 'live-frame');
         this.controlsContainer = document.getElementById(options.controlsId || 'frame-controls');
@@ -14,25 +16,123 @@ class FrameViewer {
         this.playbackSpeed = 30; // FPS
         this.imageCache = new Map();
         this.framePattern = ''; // Add this to store the pattern from server
+        this.userInteracting = false;  // New flag to track user interaction
+        
+        this.boundTogglePlayback = this.togglePlayback.bind(this);  // Store bound reference
         
         this.setupEventListeners();
     }
 
     setupEventListeners() {
-        this.sliderElement.addEventListener('input', (e) => {
-            this.showFrame(parseInt(e.target.value));
+        // Handle slider interaction start/end
+        this.sliderElement.addEventListener('mousedown', () => {
+            this.userInteracting = true;
+            if (this.isPlaying) {
+                this.pausePlayback();  // Temporarily pause while user drags
+            }
         });
 
-        this.frameInput.addEventListener('change', (e) => {
-            this.showFrame(parseInt(e.target.value));
+        document.addEventListener('mouseup', () => {
+            if (this.userInteracting) {
+                this.userInteracting = false;
+                if (this.wasPlaying) {
+                    this.resumePlayback();
+                }
+            }
         });
 
-        this.playPauseBtn.addEventListener('click', () => {
-            this.togglePlayback();
-        });
+        // Store references to bound event handlers
+        this.boundSliderInput = (e) => {
+            const frameNum = parseInt(e.target.value);
+            if (frameNum >= 0 && frameNum < this.totalFrames) {
+                this.showFrame(frameNum);
+            }
+        };
+
+        this.boundFrameInput = (e) => {
+            const frameNum = parseInt(e.target.value);
+            if (frameNum >= 0 && frameNum < this.totalFrames) {
+                this.showFrame(frameNum);
+                if (this.isPlaying) {
+                    this.currentFrame = frameNum;
+                }
+            }
+        };
+
+        // Use stored bound references
+        this.sliderElement.addEventListener('input', this.boundSliderInput);
+        this.frameInput.addEventListener('change', this.boundFrameInput);
+        this.playPauseBtn.addEventListener('click', this.boundTogglePlayback);
+    }
+
+    // New method to handle temporary pause
+    pausePlayback() {
+        if (this.isPlaying) {
+            this.wasPlaying = true;  // Remember we were playing
+            this.isPlaying = false;
+        }
+    }
+
+    // New method to resume if we were playing
+    resumePlayback() {
+        if (this.wasPlaying) {
+            this.wasPlaying = false;
+            this.isPlaying = true;
+            this.playFrames();
+        }
+    }
+
+    togglePlayback() {
+        console.log(`🔄 Toggle playback for FrameViewer #${this.instanceId}`);
+        console.log(`Before toggle: isPlaying=${this.isPlaying}, wasPlaying=${this.wasPlaying}`);
+        
+        if (this.userInteracting) {
+            console.log('👆 Ignoring toggle during user interaction');
+            return;
+        }
+        
+        this.isPlaying = !this.isPlaying;
+        this.wasPlaying = false;
+        console.log(`After toggle: isPlaying=${this.isPlaying}, wasPlaying=${this.wasPlaying}`);
+        
+        this.playPauseBtn.querySelector('span').textContent = this.isPlaying ? '⏸' : '▶';
+        
+        if (this.isPlaying) {
+            console.log('▶️ Starting playback loop');
+            this.playFrames();
+        }
+    }
+
+    async playFrames() {
+        console.log(`🎬 Starting playback loop for FrameViewer #${this.instanceId}`);
+        console.log(`Current frame: ${this.currentFrame}, Total frames: ${this.totalFrames}`);
+        
+        while (this.isPlaying && this.currentFrame < this.totalFrames - 1) {
+            if (this.userInteracting) {
+                console.log('👆 User interaction detected, breaking playback loop');
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000 / this.playbackSpeed));
+            await this.showFrame(this.currentFrame + 1);
+        }
+        
+        if (this.currentFrame >= this.totalFrames - 1) {
+            console.log('🏁 Reached end of frames');
+            this.isPlaying = false;
+            this.playPauseBtn.querySelector('span').textContent = '▶';
+        }
+        console.log(`⏹️ Playback loop ended for FrameViewer #${this.instanceId}`);
+    }
+
+    stopPlayback() {
+        console.log(`⏹️ Stopping playback for FrameViewer #${this.instanceId}`);
+        this.isPlaying = false;
+        this.wasPlaying = false;
+        console.log(`🔍 isPlaying=${this.isPlaying}, wasPlaying=${this.wasPlaying}`);
     }
 
     async initialize() {
+        console.log(`🚀 Initializing FrameViewer #${this.instanceId}`);
         try {
             // Clear cache and reset UI before fetching new frames
             this.clearCache();
@@ -57,8 +157,10 @@ class FrameViewer {
             } else {
                 console.warn('Frames not ready:', data);
             }
+            console.log(`✅ FrameViewer #${this.instanceId} initialization complete`);
         } catch (error) {
-            console.error('Error in initialize:', error);
+            console.error(`❌ FrameViewer #${this.instanceId} initialization failed:`, error);
+            throw error;
         }
     }
 
@@ -70,15 +172,18 @@ class FrameViewer {
                 if (!this.imageCache.has(frameNumber)) {
                     const paddedNumber = frameNumber.toString().padStart(6, '0');
                     const frameName = `frame_${paddedNumber}.jpg`;
-                    console.log('Loading frame:', frameName); // Debug log
+
+                    // Use a unique query param, e.g. current timestamp
+                    const url = `/static/frames/${frameName}?t=${Date.now()}`;
                     
-                    const response = await fetch(`/static/frames/${frameName}`);
+                    console.log('Loading frame:', url); // Debug log
+                    const response = await fetch(url, { cache: "no-store" });
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const blob = await response.blob();
-                    const url = URL.createObjectURL(blob);
-                    this.imageCache.set(frameNumber, url);
+                    const objectUrl = URL.createObjectURL(blob);
+                    this.imageCache.set(frameNumber, objectUrl);
                 }
                 
                 this.imageElement.src = this.imageCache.get(frameNumber);
@@ -97,27 +202,6 @@ class FrameViewer {
         this.frameInfo.textContent = `Frame: ${this.currentFrame} / ${this.totalFrames - 1}`;
     }
 
-    togglePlayback() {
-        this.isPlaying = !this.isPlaying;
-        this.playPauseBtn.querySelector('span').textContent = this.isPlaying ? '⏸' : '▶';
-        
-        if (this.isPlaying) {
-            this.playFrames();
-        }
-    }
-
-    async playFrames() {
-        while (this.isPlaying && this.currentFrame < this.totalFrames - 1) {
-            await new Promise(resolve => setTimeout(resolve, 1000 / this.playbackSpeed));
-            await this.showFrame(this.currentFrame + 1);
-        }
-        
-        if (this.currentFrame >= this.totalFrames - 1) {
-            this.isPlaying = false;
-            this.playPauseBtn.querySelector('span').textContent = '▶';
-        }
-    }
-
     clearCache() {
         // Release object URLs to prevent memory leaks
         for (let url of this.imageCache.values()) {
@@ -128,5 +212,22 @@ class FrameViewer {
         this.totalFrames = 0;
         this.isPlaying = false;                                    // Reset playback state
         this.playPauseBtn.querySelector('span').textContent = '▶'; // Reset play button
+    }
+
+    cleanup() {
+        console.log(`🧹 Cleaning up FrameViewer #${this.instanceId}`);
+        
+        // Stop playback
+        this.stopPlayback();
+        
+        // Remove event listeners
+        this.sliderElement.removeEventListener('input', this.boundSliderInput);
+        this.frameInput.removeEventListener('change', this.boundFrameInput);
+        this.playPauseBtn.removeEventListener('click', this.boundTogglePlayback);
+        
+        // Clear cache
+        this.clearCache();
+        
+        console.log(`✨ FrameViewer #${this.instanceId} cleanup complete`);
     }
 }

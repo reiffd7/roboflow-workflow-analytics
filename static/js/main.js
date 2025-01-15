@@ -1,18 +1,23 @@
 // State management
-let isPlaying = false;
-let playbackInterval;
 const PLAYBACK_FPS = 10;
 let frameViewer = null;
+let frameViewerInstanceCount = 0;
 
 // Initialize the frame viewer after processing is complete
 async function initializeFrameViewer() {
-    if (!frameViewer) {
+    console.log('🟢 Attempting to initialize FrameViewer...');
+    if (frameViewer) {
+        console.warn('⚠️ Found existing frameViewer when trying to initialize new one!');
+    } else {
+        const instanceNum = ++frameViewerInstanceCount;
+        console.log(`🆕 Creating new FrameViewer (instance #${instanceNum})`);
         frameViewer = new FrameViewer();
         await frameViewer.initialize();
+        console.log(`✅ FrameViewer #${instanceNum} initialized successfully`);
     }
 }
 
-// DOM Elements
+// DOM elements
 const elements = {
     init() {
         this.statusText = document.getElementById('status-text');
@@ -23,8 +28,9 @@ const elements = {
         this.frameSlider = document.getElementById('frame-slider');
         this.frameInput = document.getElementById('frame-input');
         this.liveFrame = document.getElementById('live-frame');
-        this.playButton = document.getElementById('play-button');
-        this.playIcon = document.getElementById('play-icon');
+        // Remove these if not needed
+        // this.playButton = document.getElementById('play-button');
+        // this.playIcon = document.getElementById('play-icon');
     }
 };
 
@@ -49,17 +55,17 @@ const StatusManager = {
 
     updateUI(data) {
         const statusMap = {
-            idle: { text: 'Ready to start', class: 'alert-info', buttonEnabled: true },
-            initializing: { text: 'Initializing pipeline...', class: 'alert-warning', buttonEnabled: false },
-            processing: { text: 'Processing video...', class: 'alert-primary', buttonEnabled: false },
-            completed: { text: 'Processing completed!', class: 'alert-success', buttonEnabled: true },
-            error: { text: 'An error occurred', class: 'alert-danger', buttonEnabled: true }
+            idle:         { text: 'Ready to start',         class: 'alert-info',    buttonEnabled: true },
+            initializing: { text: 'Initializing pipeline...',class: 'alert-warning', buttonEnabled: false },
+            processing:   { text: 'Processing video...',     class: 'alert-primary', buttonEnabled: false },
+            completed:    { text: 'Processing completed!',   class: 'alert-success', buttonEnabled: true },
+            error:        { text: 'An error occurred',       class: 'alert-danger',  buttonEnabled: true }
         };
-
-        const status = statusMap[data.status];
-        elements.statusText.textContent = status.text;
-        elements.statusText.className = `alert ${status.class}`;
-        elements.startButton.disabled = !status.buttonEnabled;
+        
+        const statusDef = statusMap[data.status] || statusMap.error;
+        elements.statusText.textContent = statusDef.text;
+        elements.statusText.className = `alert ${statusDef.class}`;
+        elements.startButton.disabled = !statusDef.buttonEnabled;
         
         elements.progressBar.style.width = `${data.progress_percentage}%`;
         elements.progressText.textContent = 
@@ -67,52 +73,28 @@ const StatusManager = {
     },
 
     handleCompletion(data) {
-        initializeFrameViewer();
-    }
-};
-
-// Frame management
-const FrameManager = {
-    updateFrameDisplay(frameNumber) {
-        document.getElementById('frame-number').textContent = `Frame: ${frameNumber}`;
-        elements.frameInput.value = frameNumber;
-        elements.frameSlider.value = frameNumber;
-        elements.liveFrame.src = `/frame/${frameNumber}`;
-    },
-
-    togglePlayback() {
-        isPlaying = !isPlaying;
-        
-        if (isPlaying) {
-            elements.playIcon.textContent = '⏸';
-            playbackInterval = setInterval(() => this.advanceFrame(), 1000 / PLAYBACK_FPS);
+        console.log('🎬 Processing completed, handling viewer transition...');
+        if (frameViewer) {
+            console.log('🧹 Cleaning up existing frameViewer');
+            frameViewer.cleanup();
+            console.log('🗑️ Nulling out old frameViewer reference');
+            frameViewer = null;
         } else {
-            elements.playIcon.textContent = '▶';
-            clearInterval(playbackInterval);
+            console.log('ℹ️ No existing frameViewer to clean up');
         }
-    },
-
-    advanceFrame() {
-        const currentFrame = parseInt(elements.frameSlider.value);
-        const maxFrame = parseInt(elements.frameSlider.max);
-        
-        if (currentFrame >= maxFrame) {
-            this.togglePlayback();
-            return;
-        }
-        
-        this.updateFrameDisplay(currentFrame + 1);
+        console.log('🔄 Initializing new frameViewer');
+        initializeFrameViewer();
     }
 };
 
 // Configuration management
 const ConfigManager = {
     async updateConfig(event) {
+        console.log('🔄 Update config called, preventing default');
         event.preventDefault();
         
         try {
             const existingConfig = await fetch('/get_config').then(res => res.json());
-            
             const config = {
                 api: {
                     workflow_id: document.getElementById('workflow_id').value
@@ -128,7 +110,7 @@ const ConfigManager = {
                 body: JSON.stringify(config)
             });
 
-            const data = await response.json();
+            await response.json();
             alert('Configuration updated successfully!');
         } catch (error) {
             alert('Failed to update configuration');
@@ -136,48 +118,7 @@ const ConfigManager = {
     }
 };
 
-// Event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // First expose the functions globally
-    window.handleVideoUpload = handleVideoUpload;
-    window.togglePlayback = () => FrameManager.togglePlayback();
-    
-    // Then initialize elements
-    elements.init();
-    
-    // Finally add event listeners
-    const uploadButton = document.getElementById('upload-button');
-    if (uploadButton) {
-        uploadButton.addEventListener('click', handleVideoUpload);
-    } else {
-        console.error('Upload button not found in DOM');
-    }
-    
-    // Add start button handler with correct endpoint
-    const startButton = document.getElementById('start-button');
-    if (startButton) {
-        startButton.addEventListener('click', async () => {
-            try {
-                // Reset frame viewer
-                frameViewer = null;  // This will allow initializeFrameViewer to create a new instance
-                
-                const response = await fetch('/start_pipeline', { method: 'GET' });
-                if (!response.ok) {
-                    throw new Error('Failed to start pipeline');
-                }
-                // Start polling for status updates
-                StatusManager.updateStatus();
-            } catch (error) {
-                console.error('Failed to start pipeline:', error);
-                alert('Failed to start pipeline: ' + error.message);
-            }
-        });
-    } else {
-        console.error('Start button not found in DOM');
-    }
-});
-
-// Move handleVideoUpload function above the export
+// Upload handler
 async function handleVideoUpload() {
     const fileInput = document.getElementById('video-upload');
     const file = fileInput.files[0];
@@ -186,7 +127,7 @@ async function handleVideoUpload() {
         alert('Please select a file first');
         return;
     }
-
+    
     try {
         const result = await uploadVideo(file);
         console.log('Upload completed:', result);
@@ -196,106 +137,80 @@ async function handleVideoUpload() {
     }
 }
 
-// Export functions that need to be accessed from HTML
-window.togglePlayback = () => FrameManager.togglePlayback();
-window.handleVideoUpload = handleVideoUpload;
-
-// Add this to ensure functions are available after DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Re-expose functions to window after DOM is loaded
-    window.handleVideoUpload = handleVideoUpload;
-    window.togglePlayback = () => FrameManager.togglePlayback();
-});
-
+// Actually upload the video to the backend
 async function uploadVideo(file) {
     try {
         console.log('Starting upload process for file:', file.name, 'Type:', file.type);
-        
-        // Validate file type
+
         const allowedTypes = ['video/mp4', 'video/avi', 'video/quicktime', 'video/x-matroska'];
         if (!allowedTypes.includes(file.type)) {
             throw new Error('Invalid file type. Please upload MP4, AVI, MOV, or MKV files.');
         }
 
-        // Create form data
         const formData = new FormData();
         formData.append('video', file);
-        console.log('FormData created with file');
 
-        // Get Supabase credentials from backend
         console.log('Fetching config from backend...');
         const configResponse = await fetch('/get_config');
         const config = await configResponse.json();
         console.log('Config received:', { url: config.supabase.url, hasKey: !!config.supabase.key });
 
-        // Initialize Supabase client using global supabase object
-        const supabase = window.supabase.createClient(
-            config.supabase.url,
-            config.supabase.key
-        );
+        const supabase = window.supabase.createClient(config.supabase.url, config.supabase.key);
         console.log('Supabase client initialized');
 
-        // Generate safe filename and path
         const filename = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
         const folderName = filename.split('.')[0];
         const path = `${folderName}/video/${filename}`;
         console.log('Generated path:', path);
 
-        // Check if file exists
-        try {
-            console.log('Checking if file exists...');
-            const { data, error } = await supabase.storage
+        // Check if file already exists
+        console.log('Checking if file exists...');
+        const { data: existingFiles, error: listError } = await supabase.storage
+            .from('workflow_analytics')
+            .list(`${folderName}/video`);
+        console.log('File check result:', { data: existingFiles, error: listError });
+
+        if (existingFiles?.length > 0) {
+            console.log('File already exists, retrieving public URL');
+            const { data: { publicUrl } } = supabase.storage
                 .from('workflow_analytics')
-                .list(`${folderName}/video`);
-            console.log('File check result:', { data, error });
+                .getPublicUrl(path);
+            console.log('Retrieved public URL:', publicUrl);
 
-            if (data?.length > 0) {
-                console.log('File already exists, retrieving public URL');
-                const { data: { publicUrl } } = supabase.storage
-                    .from('workflow_analytics')
-                    .getPublicUrl(path);
-                console.log('Retrieved public URL:', publicUrl);
-
-                const configUpdate = {
-                    video: {
-                        source: publicUrl,
-                        folder_name: folderName
-                    }
-                };
-                console.log('Updating config with:', configUpdate);
-                await updateConfig(configUpdate);
-
-                return {
-                    success: true,
-                    message: 'File already exists, config updated',
-                    file_url: publicUrl,
+            const configUpdate = {
+                video: {
+                    source: publicUrl,
                     folder_name: folderName
-                };
-            }
-        } catch (error) {
-            console.log('File existence check error:', error);
+                }
+            };
+            console.log('Updating config with:', configUpdate);
+            await updateConfig(configUpdate);
+
+            return {
+                success: true,
+                message: 'File already exists, config updated',
+                file_url: publicUrl,
+                folder_name: folderName
+            };
         }
 
-        // Upload file
+        // Upload new file
         console.log('Starting file upload...');
-        const { data, error } = await supabase.storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
             .from('workflow_analytics')
             .upload(path, file, {
                 cacheControl: '3600',
                 upsert: false
             });
-        console.log('Upload result:', { data, error });
+        console.log('Upload result:', { data: uploadData, error: uploadError });
+        if (uploadError) throw uploadError;
 
-        if (error) throw error;
-
-        // Get public URL
         console.log('Getting public URL for uploaded file...');
         const { data: { publicUrl } } = supabase.storage
             .from('workflow_analytics')
             .getPublicUrl(path);
         console.log('Public URL:', publicUrl);
 
-        // Update config
         const finalConfig = {
             video: {
                 source: publicUrl,
@@ -308,14 +223,13 @@ async function uploadVideo(file) {
         return {
             success: true,
             message: 'Video uploaded successfully',
-            filename: filename,
+            filename,
             file_url: publicUrl,
             folder_name: folderName
         };
 
     } catch (error) {
         console.error('Upload error:', error);
-        console.error('Error stack:', error.stack);
         throw error;
     }
 }
@@ -323,41 +237,74 @@ async function uploadVideo(file) {
 async function updateConfig(newConfig) {
     const response = await fetch('/update_config', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newConfig)
     });
     return response.json();
 }
 
-// Example usage in your form handler
-document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fileInput = document.getElementById('videoFile');
-    const file = fileInput.files[0];
-    
+// Single DOMContentLoaded listener
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1) Initialize references to your DOM elements
+    elements.init();
+
+    // 2) Hook up the upload button
+    const uploadButton = document.getElementById('upload-button');
+    if (uploadButton) {
+        uploadButton.addEventListener('click', handleVideoUpload);
+    } else {
+        console.error('Upload button not found in DOM');
+    }
+
+    // 3) Hook up the start button
+    if (elements.startButton) {
+        elements.startButton.addEventListener('click', async () => {
+            try {
+                console.log('🎯 Start button clicked');
+                if (frameViewer) {
+                    console.log('🧹 Cleaning up existing frameViewer');
+                    frameViewer.cleanup();
+                    console.log('🗑️ Clearing old frameViewer reference');
+                    frameViewer = null;
+                }
+                const response = await fetch('/start_pipeline', { method: 'GET' });
+                if (!response.ok) {
+                    throw new Error('Failed to start pipeline');
+                }
+                console.log('📊 Starting status polling');
+                StatusManager.updateStatus();
+            } catch (error) {
+                console.error('Failed to start pipeline:', error);
+                alert('Failed to start pipeline: ' + error.message);
+            }
+        });
+    }
+
+    // 4) Check if frames are already available; if so, set up the viewer
     try {
-        const result = await uploadVideo(file);
-        console.log('Upload successful:', result);
-        // Update UI to show success
-    } catch (error) {
-        console.error('Upload failed:', error);
-        // Update UI to show error
+        const response = await fetch('/api/frames_info');
+        const data = await response.json();
+        if (data.frames_ready) {
+            initializeFrameViewer();
+        }
+    } catch (err) {
+        console.error('Error checking frames on page load:', err);
+    }
+
+    // Add config form handler
+    const configForm = document.getElementById('config-form');
+    if (configForm) {
+        configForm.addEventListener('submit', ConfigManager.updateConfig);
+    } else {
+        console.error('Config form not found in DOM');
     }
 });
 
-// Update your existing processing complete handler
+// (Optional) If yous have a “handleProcessingComplete” function in HTML somewhere
+// you can remove or modify it if it re-calls initializeFrameViewer() unnecessarily.
 function handleProcessingComplete() {
-    // ... existing code ...
-    initializeFrameViewer();
-}
-
-// You might also want to check for existing frames on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    const response = await fetch('/api/frames_info');
-    const data = await response.json();
-    if (data.frames_ready) {
-        initializeFrameViewer();
-    }
-}); 
+    // Example if needed:
+    // if (frameViewer) frameViewer.stopPlayback();
+    // frameViewer = null;
+    // initializeFrameViewer();
+} 
