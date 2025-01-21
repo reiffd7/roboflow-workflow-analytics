@@ -300,11 +300,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// (Optional) If yous have a “handleProcessingComplete” function in HTML somewhere
-// you can remove or modify it if it re-calls initializeFrameViewer() unnecessarily.
-function handleProcessingComplete() {
-    // Example if needed:
-    // if (frameViewer) frameViewer.stopPlayback();
-    // frameViewer = null;
-    // initializeFrameViewer();
-} 

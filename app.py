@@ -2,20 +2,22 @@ from flask import Flask, jsonify, Response, render_template, send_file, request,
 from io import BytesIO
 from PIL import Image
 import cv2
-import yaml
+import base64
+import io
 import os
-import json
 from supabase import create_client, Client
 from werkzeug.utils import secure_filename
 import logging
 from logging.handlers import RotatingFileHandler
 import sys
-import requests
 import tempfile
-from concurrent.futures import ThreadPoolExecutor
+from inference_sdk import InferenceHTTPClient
 from datetime import datetime
 import numpy as np
 import glob
+from multiprocessing import Pool, cpu_count
+from functools import partial
+import psutil
 
 # Set paths based on environment
 STATIC_FOLDER = 'static'
@@ -40,6 +42,13 @@ total_frames = 0
 pipeline_status = "idle"  # Can be "idle", "initializing", "processing", "completed", "error"
 
 
+ROBOFLOW_INFERENCE_CLIENT = InferenceHTTPClient(
+    api_url="https://mars-buckets.roboflow.cloud",
+    api_key="FDHx9sJTuZgbKHJlxXH6"
+)
+
+LINE = [[30,445],[596,444]]
+ZONE = [[33,14],[593,14],[601,631],[24,625]]
 
 # Replace config file handling with in-memory config
 app_config = {
@@ -176,67 +185,137 @@ def get_status():
         "progress_percentage": round((frames_processed / total_frames * 100) if total_frames > 0 else 0, 2)
     })
 
+def download_video_from_supabase(supabase: Client, video_path: str) -> str:
+    """Download video from Supabase and return temporary file path"""
+    with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
+        # Extract relative path from the public URL
+        relative_path = video_path.split('/workflow_analytics/')[-1] if '/workflow_analytics/' in video_path else video_path
+        logger.info(f"Downloading video from relative path: {relative_path}")
+        
+        response = supabase.storage.from_(BUCKET_NAME).download(relative_path)
+        temp_file.write(response)
+        return temp_file.name
+
+def process_single_frame(frame: np.ndarray) -> tuple[Image.Image, float, int]:
+    """Process a single video frame and return visualization, angle, and count"""
+    # Convert BGR to RGB for processing
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    input_image = Image.fromarray(rgb_frame)
+
+    workflow_result = ROBOFLOW_INFERENCE_CLIENT.run_workflow(
+        workspace_name="mars-environment",
+        workflow_id="bucketskew",
+        images={"image": input_image},
+        parameters={
+            "line": LINE,
+            "zone": ZONE
+        },
+        use_cache=True
+    )
+
+    bucket_angle = workflow_result[0]['angles']
+    bucket_count = workflow_result[0]['count_in']
+    visualized_frame_base64 = workflow_result[0]['line_counter_visualization']
+    
+    # Convert base64 to PIL Image
+    image_bytes = base64.b64decode(visualized_frame_base64)
+    visualized_frame = Image.open(io.BytesIO(image_bytes))
+    
+    return visualized_frame, bucket_angle, bucket_count
+
+def get_memory_usage():
+    """Get current memory usage percentage"""
+    return psutil.Process().memory_percent()
+
+def process_frame_batch(frame_batch, start_idx):
+    """Process a batch of frames in parallel"""
+    if get_memory_usage() > 80:  # 80% memory usage threshold
+        logger.warning("High memory usage detected")
+        
+    results = []
+    for i, raw_frame in enumerate(frame_batch):
+        try:
+            visualized_frame, angle, count = process_single_frame(raw_frame)
+            frame_number = start_idx + i
+            results.append((frame_number, visualized_frame, angle, count))
+        except Exception as e:
+            logger.error(f"Error processing frame {start_idx + i}: {str(e)}")
+    return results
+
 def process_video_frames():
+    """Main video processing function with parallel processing"""
     global frames_processed, total_frames, pipeline_status, latest_image
+    temp_path = None
+    batch_size = 5  # Smaller batch size to reduce memory usage
+    
     try:
         # Clean up existing frames
         logger.info("Cleaning up existing frames...")
         frame_storage.cleanup()
         logger.info("Frames directory cleaned")
 
-        video_source = app_config['video']['source']
-        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+        # Initialize Supabase client and download video
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        video_path = app_config['video']['source']
+        temp_path = download_video_from_supabase(supabase, video_path)
         
-
-        
-        # Download and process video
-        with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as temp_file:
-            video_path = app_config['video']['source']
-            
-            # Extract relative path from the public URL
-            # Example URL: https://...supabase.co/storage/v1/object/public/workflow_analytics/folder/video/file.mp4
-            relative_path = video_path.split('/workflow_analytics/')[-1] if '/workflow_analytics/' in video_path else video_path
-            logger.info(f"Downloading video from relative path: {relative_path}")
-            
-            response = supabase.storage.from_(BUCKET_NAME).download(relative_path)
-            temp_file.write(response)
-            temp_path = temp_file.name
-        
+        # Initialize video capture
         cap = cv2.VideoCapture(temp_path)
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         frames_processed = 0
         
-        while cap.isOpened():
-            ret, frame = cap.read()
-            if not ret:
-                break
+        # Create process pool
+        num_processes = min(2, max(1, cpu_count() - 1))  # Start with max 2 processes
+        logger.info(f"Starting parallel processing with {num_processes} processes")
+        
+        with Pool(processes=num_processes) as pool:
+            frame_batch = []
+            batch_start_idx = 0
+            
+            while cap.isOpened():
+                success, raw_frame = cap.read()
+                if not success:
+                    break
                 
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frame_batch.append(raw_frame)
+                
+                # Process batch when it reaches batch_size
+                if len(frame_batch) >= batch_size:
+                    # Process batch in parallel
+                    process_func = partial(process_frame_batch, start_idx=batch_start_idx)
+                    results = pool.apply_async(process_func, (frame_batch,))
+                    
+                    # Save results and update progress
+                    for frame_num, vis_frame, angle, count in results.get():
+                        latest_image = np.array(vis_frame)
+                        frame_storage.save_frame(frame_num, vis_frame)
+                        frames_processed += 1
+                    
+                    # Reset batch
+                    frame_batch = []
+                    batch_start_idx = frames_processed
             
-            # Convert to PIL Image and resize
-            img = Image.fromarray(frame_rgb)
-            # Reduce to 720p or smaller while maintaining aspect ratio
-            width, height = img.size
-            target_height = 720
-            if height > target_height:
-                ratio = target_height / height
-                new_width = int(width * ratio)
-                img = img.resize((new_width, target_height), Image.Resampling.LANCZOS)
-            
-            # Update latest_image with the resized version
-            latest_image = np.array(img)
-            
-            # Save frame using frame storage
-            frame_storage.save_frame(frames_processed, img)
-            frames_processed += 1
-            
+            # Process remaining frames
+            if frame_batch:
+                process_func = partial(process_frame_batch, start_idx=batch_start_idx)
+                results = pool.apply_async(process_func, (frame_batch,))
+                
+                for frame_num, vis_frame, angle, count in results.get():
+                    latest_image = np.array(vis_frame)
+                    frame_storage.save_frame(frame_num, vis_frame)
+                    frames_processed += 1
+        
         cap.release()
         pipeline_status = "completed"
-        os.unlink(temp_path)
         
     except Exception as e:
         pipeline_status = "error"
         logger.exception(f"Error processing video: {str(e)}")
+        
+    finally:
+        # Clean up temporary file
+        if temp_path and os.path.exists(temp_path):
+            os.unlink(temp_path)
 
 
 @app.route('/start_pipeline', methods=['GET'])
