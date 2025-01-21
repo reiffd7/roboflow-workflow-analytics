@@ -242,8 +242,8 @@ def process_frame_batch(frame_batch, start_idx):
             logger.error(f"Error processing frame {start_idx + i}: {str(e)}")
     return results
 
-def process_video_frames():
-    """Main video processing function with parallel processing"""
+def process_video_frames(parallel=True):
+    """Main video processing function with option for parallel or sequential processing"""
     global frames_processed, total_frames, pipeline_status, latest_image
     temp_path = None
     batch_size = 5  # Smaller batch size to reduce memory usage
@@ -263,47 +263,64 @@ def process_video_frames():
         cap = cv2.VideoCapture(temp_path)
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         frames_processed = 0
-        
-        # Create process pool
-        num_processes = min(2, max(1, cpu_count() - 1))  # Start with max 2 processes
-        logger.info(f"Starting parallel processing with {num_processes} processes")
-        
-        with Pool(processes=num_processes) as pool:
-            frame_batch = []
-            batch_start_idx = 0
+
+        if parallel:
+            # Parallel processing mode
+            num_processes = min(2, max(1, cpu_count() - 1))
+            logger.info(f"Starting parallel processing with {num_processes} processes")
+            
+            with Pool(processes=num_processes) as pool:
+                frame_batch = []
+                batch_start_idx = 0
+                
+                while cap.isOpened():
+                    success, raw_frame = cap.read()
+                    if not success:
+                        break
+                    
+                    frame_batch.append(raw_frame)
+                    
+                    if len(frame_batch) >= batch_size:
+                        process_func = partial(process_frame_batch, start_idx=batch_start_idx)
+                        results = pool.apply_async(process_func, (frame_batch,))
+                        
+                        for frame_num, vis_frame, angle, count in results.get():
+                            print(count)
+                            latest_image = np.array(vis_frame)
+                            frame_storage.save_frame(frame_num, vis_frame)
+                            frames_processed += 1
+                        
+                        frame_batch = []
+                        batch_start_idx = frames_processed
+                
+                # Process remaining frames
+                if frame_batch:
+                    process_func = partial(process_frame_batch, start_idx=batch_start_idx)
+                    results = pool.apply_async(process_func, (frame_batch,))
+                    
+                    for frame_num, vis_frame, angle, count in results.get():
+                        latest_image = np.array(vis_frame)
+                        frame_storage.save_frame(frame_num, vis_frame)
+                        frames_processed += 1
+        else:
+            # Sequential processing mode
+            logger.info("Starting sequential processing")
+            frame_number = 0
             
             while cap.isOpened():
                 success, raw_frame = cap.read()
                 if not success:
                     break
                 
-                frame_batch.append(raw_frame)
-                
-                # Process batch when it reaches batch_size
-                if len(frame_batch) >= batch_size:
-                    # Process batch in parallel
-                    process_func = partial(process_frame_batch, start_idx=batch_start_idx)
-                    results = pool.apply_async(process_func, (frame_batch,))
-                    
-                    # Save results and update progress
-                    for frame_num, vis_frame, angle, count in results.get():
-                        latest_image = np.array(vis_frame)
-                        frame_storage.save_frame(frame_num, vis_frame)
-                        frames_processed += 1
-                    
-                    # Reset batch
-                    frame_batch = []
-                    batch_start_idx = frames_processed
-            
-            # Process remaining frames
-            if frame_batch:
-                process_func = partial(process_frame_batch, start_idx=batch_start_idx)
-                results = pool.apply_async(process_func, (frame_batch,))
-                
-                for frame_num, vis_frame, angle, count in results.get():
+                try:
+                    vis_frame, angle, count = process_single_frame(raw_frame)
+                    print(count)
                     latest_image = np.array(vis_frame)
-                    frame_storage.save_frame(frame_num, vis_frame)
+                    frame_storage.save_frame(frame_number, vis_frame)
                     frames_processed += 1
+                    frame_number += 1
+                except Exception as e:
+                    logger.error(f"Error processing frame {frame_number}: {str(e)}")
         
         cap.release()
         pipeline_status = "completed"
@@ -317,10 +334,13 @@ def process_video_frames():
         if temp_path and os.path.exists(temp_path):
             os.unlink(temp_path)
 
-
+# Update the start_pipeline route to accept processing mode
 @app.route('/start_pipeline', methods=['GET'])
 def start_pipeline():
     global frames_processed, total_frames, pipeline_status
+    
+    # Get processing mode from query parameter, default to parallel
+    parallel = True
     
     # Reset state
     pipeline_status = "processing"
@@ -329,10 +349,13 @@ def start_pipeline():
     try:
         # Start processing in a separate thread
         import threading
-        thread = threading.Thread(target=process_video_frames)
+        thread = threading.Thread(target=process_video_frames, args=(parallel,))
         thread.start()
         
-        return jsonify({"status": "Video processing started"})
+        return jsonify({
+            "status": "Video processing started",
+            "mode": "parallel" if parallel else "sequential"
+        })
         
     except Exception as e:
         pipeline_status = "error"
